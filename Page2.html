@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Our Best Moments | For My Neemu ❤️</title>
+  <title>My Favorite Pics of Yours | For My Neemu ❤️</title>
 
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -40,7 +41,6 @@
       position: relative;
     }
 
-    /* Header */
     .header {
       text-align: center;
       z-index: 2;
@@ -60,7 +60,6 @@
       opacity: 0.9;
     }
 
-    /* Deck Container */
     .deck-container {
       position: relative;
       width: 320px;
@@ -73,7 +72,6 @@
       z-index: 2;
     }
 
-    /* Individual Card */
     .photo-card {
       position: absolute;
       width: 100%;
@@ -114,7 +112,6 @@
       display: block;
     }
 
-    /* Fallback placeholder */
     .placeholder {
       display: flex;
       flex-direction: column;
@@ -132,14 +129,13 @@
 
     .caption {
       text-align: center;
-      font-size: 1rem;
+      font-size: 0.98rem;
       font-weight: 600;
       color: #331522;
       margin-top: 10px;
       font-family: 'Plus Jakarta Sans', sans-serif;
     }
 
-    /* Swipe-off animations */
     .photo-card.swipe-left {
       transform: translate(-150%, -20%) rotate(-35deg) scale(0.8) !important;
       opacity: 0;
@@ -152,7 +148,6 @@
       pointer-events: none;
     }
 
-    /* Empty state box when all cards are swiped */
     .empty-state {
       position: absolute;
       text-align: center;
@@ -194,7 +189,6 @@
       transform: scale(1.05);
     }
 
-    /* Navigation / Back Button */
     .controls {
       display: flex;
       gap: 1.5rem;
@@ -227,200 +221,201 @@
 </head>
 <body>
 
+  <!-- Header -->
   <div class="header">
-    <h1 class="title">Our Best Moments</h1>
-    <p class="hint">Tap a card to reveal the next memory ✨</p>
+    <h1 class="title">My Favorite Pics of Yours</h1>
+    <p class="hint">Tap a card to reveal the next picture ✨</p>
   </div>
 
-  <!-- Deck of 10 Image Cards -->
+  <!-- Deck of 10 Picture Cards -->
   <div class="deck-container" id="deck">
 
     <!-- Card 1 (Bottom) -->
     <div class="photo-card" data-index="1">
       <div class="photo-box">
-        <img src="" alt="Memory 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+        <img src="" alt="Picture 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
         <div class="placeholder">
           <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
           <span>Add Photo 1</span>
         </div>
       </div>
-      <div class="caption">Where our whole story began 💫</div>
+      <div class="caption">The prettiest face in the world ✨</div>
     </div>
 
     <!-- Card 2 -->
     <div class="photo-card" data-index="2">
       <div class="photo-box">
-        <img src="" alt="Memory 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+        <img src="" alt="Picture 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
         <div class="placeholder">
           <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
           <span>Add Photo 2</span>
         </div>
       </div>
-      <div class="caption">Our first candid laugh together 😂❤️</div>
+      <div class="caption">That sweet smile I fall for every day ❤️</div>
     </div>
 
     <!-- Card 3 -->
     <div class="photo-card" data-index="3">
       <div class="photo-box">
-        <img src="" alt="Memory 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+        <img src="" alt="Picture 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
         <div class="placeholder">
           <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
           <span>Add Photo 3</span>
         </div>
       </div>
-      <div class="caption">That smile that melts everything ✨</div>
+      <div class="caption">Effortlessly gorgeous 🌸</div>
     </div>
 
     <!-- Card 4 -->
     <div class="photo-card" data-index="4">
       <div class="photo-box">
-        <img src="" alt="Memory 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+        <img src="" alt="Picture 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
         <div class="placeholder">
           <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
           <span>Add Photo 4</span>
         </div>
       </div>
-      <div class="caption">One of my all-time favorite dates ☕</div>
+      <div class="caption">Being completely cute and silly 🥰</div>
     </div>
 
     <!-- Card 5 -->
     <div class="photo-card" data-index="5">
       <div class="photo-box">
-        <img src="" alt="Memory 5" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+        <img src="" alt="Picture 5" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
         <div class="placeholder">
           <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
           <span>Add Photo 5</span>
         </div>
       </div>
-      <div class="caption">Late night talks that felt like 5 mins 🌙</div>
+      <div class="caption">My favorite picture of my favorite girl 💖</div>
     </div>
 
     <!-- Card 6 -->
     <div class="photo-card" data-index="6">
       <div class="photo-box">
-        <img src="" alt="Memory 6" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+        <img src="" alt="Picture 6" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
         <div class="placeholder">
           <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
           <span>Add Photo 6</span>
         </div>
       </div>
-      <div class="caption">You looking breathtaking as always 🌸</div>
+      <div class="caption">Those eyes that have my whole heart 💫</div>
     </div>
 
     <!-- Card 7 -->
     <div class="photo-card" data-index="7">
       <div class="photo-box">
-        <img src="" alt="Memory 7" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+        <img src="" alt="Picture 7" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
         <div class="placeholder">
           <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
           <span>Add Photo 7</span>
         </div>
       </div>
-      <div class="caption">Our random goofy adventures 🍦</div>
+      <div class="caption">How are you this pretty? 🥺💘</div>
     </div>
 
     <!-- Card 8 -->
     <div class="photo-card" data-index="8">
       <div class="photo-box">
-        <img src="" alt="Memory 8" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+        <img src="" alt="Picture 8" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
         <div class="placeholder">
           <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
           <span>Add Photo 8</span>
         </div>
       </div>
-      <div class="caption">The moment I realized I fell so hard 💘</div>
+      <div class="caption">A pure angel ✨</div>
     </div>
 
     <!-- Card 9 -->
     <div class="photo-card" data-index="9">
       <div class="photo-box">
-        <img src="" alt="Memory 9" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+        <img src="" alt="Picture 9" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
         <div class="placeholder">
           <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
           <span>Add Photo 9</span>
         </div>
       </div>
-      <div class="caption">My absolute favorite human ever 🥰</div>
+      <div class="caption">My screen wallpaper forever 📱❤️</div>
     </div>
 
     <!-- Card 10 (Top Initial Card) -->
     <div class="photo-card" data-index="10">
       <div class="photo-box">
-        <img src="" alt="Memory 10" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+        <img src="" alt="Picture 10" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
         <div class="placeholder">
           <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
           <span>Add Photo 10</span>
         </div>
       </div>
-      <div class="caption">Happy Birthday to my whole world! 💖🎂</div>
+      <div class="caption">Breathtaking as always, birthday girl! 💖🎂</div>
     </div>
 
     <!-- Empty State Message -->
     <div class="empty-state" id="emptyState">
-      <h3>And so many more to make! 💕</h3>
-      <p>I love every single second with you, Neemu.</p>
-      <button class="reset-btn" onclick="resetDeck()">View Deck Again ↺</button>
+      <h3>You are gorgeous in every single picture! 💕</h3>
+      <p>I can never get tired of looking at you, Neemu.</p>
+      <button class="reset-btn" onclick="resetDeck()">View Pics Again ↺</button>
     </div>
 
   </div>
 
+  <!-- Bottom Navigation & Counter -->
   <div class="controls">
     <a href="index.html" class="nav-btn">← Home</a>
-    <span class="card-counter" id="counter">5 memories left</span>
+    <span class="card-counter" id="counter">10 pictures left</span>
   </div>
 
+  <!-- Deck Management Script -->
   <script>
-  const deck = document.getElementById('deck');
-  const cards = Array.from(deck.querySelectorAll('.photo-card'));
-  const emptyState = document.getElementById('emptyState');
-  const counter = document.getElementById('counter');
+    const deck = document.getElementById('deck');
+    const cards = Array.from(deck.querySelectorAll('.photo-card'));
+    const emptyState = document.getElementById('emptyState');
+    const counter = document.getElementById('counter');
 
-  const rotations = [-3, 2.5, -2, 3, -1.5, 2, -3.5, 1.5, -2.5, 0];
-  let remainingCards = [...cards];
+    const rotations = [-3, 2.5, -2, 3, -1.5, 2, -3.5, 1.5, -2.5, 0];
+    let remainingCards = [...cards];
 
-  function applyDeckStyles() {
-    remainingCards.forEach((card, index) => {
-      card.style.zIndex = index + 1;
-      const rot = rotations[index % rotations.length];
-      // Subtle layered elevation
-      const translateY = (remainingCards.length - 1 - index) * -2;
-      card.style.transform = `translateY(${translateY}px) rotate(${rot}deg)`;
-    });
-    updateCounter();
-  }
-
-  function updateCounter() {
-    if (remainingCards.length > 0) {
-      counter.textContent = `${remainingCards.length} ${remainingCards.length === 1 ? 'memory' : 'memories'} left`;
-      emptyState.style.display = 'none';
-    } else {
-      counter.textContent = 'All memories viewed ❤️';
-      emptyState.style.display = 'flex';
+    function applyDeckStyles() {
+      remainingCards.forEach((card, index) => {
+        card.style.zIndex = index + 1;
+        const rot = rotations[index % rotations.length];
+        const translateY = (remainingCards.length - 1 - index) * -2;
+        card.style.transform = `translateY(${translateY}px) rotate(${rot}deg)`;
+      });
+      updateCounter();
     }
-  }
 
-  cards.forEach(card => {
-    card.addEventListener('click', () => {
-      // Only the top-most card can be swiped
-      if (card !== remainingCards[remainingCards.length - 1]) return;
+    function updateCounter() {
+      if (remainingCards.length > 0) {
+        counter.textContent = `${remainingCards.length} ${remainingCards.length === 1 ? 'picture' : 'pictures'} left`;
+        emptyState.style.display = 'none';
+      } else {
+        counter.textContent = 'All pictures viewed ❤️';
+        emptyState.style.display = 'flex';
+      }
+    }
 
-      const swipeDirection = Math.random() > 0.5 ? 'swipe-right' : 'swipe-left';
-      card.classList.add(swipeDirection);
-
-      remainingCards.pop();
-      applyDeckStyles();
-    });
-  });
-
-  function resetDeck() {
     cards.forEach(card => {
-      card.classList.remove('swipe-left', 'swipe-right');
-    });
-    remainingCards = [...cards];
-    applyDeckStyles();
-  }
+      card.addEventListener('click', () => {
+        if (card !== remainingCards[remainingCards.length - 1]) return;
 
-  applyDeckStyles();
-</script>
+        const swipeDirection = Math.random() > 0.5 ? 'swipe-right' : 'swipe-left';
+        card.classList.add(swipeDirection);
+
+        remainingCards.pop();
+        applyDeckStyles();
+      });
+    });
+
+    function resetDeck() {
+      cards.forEach(card => {
+        card.classList.remove('swipe-left', 'swipe-right');
+      });
+      remainingCards = [...cards];
+      applyDeckStyles();
+    }
+
+    applyDeckStyles();
+  </script>
 </body>
 </html>

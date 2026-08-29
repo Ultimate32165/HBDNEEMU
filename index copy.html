@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday Neemu ❤️</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #1f0b14 0%, #381223 50%, #1a0812 100%);
+      --accent-pink: #ff6b8b;
+      --accent-gold: #ffd166;
+      --card-bg: rgba(255, 255, 255, 0.07);
+      --card-border: rgba(255, 182, 193, 0.25);
+      --card-hover-border: rgba(255, 107, 139, 0.6);
+      --text-main: #fff0f5;
+      --text-sub: #f3c5d3;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg-gradient);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text-main);
+      overflow-x: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2.5rem 1rem 4rem;
+    }
+
+    /* Floating background hearts canvas */
+    #heart-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Header Section */
+    .header-container {
+      text-align: center;
+      z-index: 1;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+
+    .main-title {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(3.2rem, 8vw, 5.5rem);
+      font-weight: 400;
+      letter-spacing: 2px;
+      color: #fff;
+      text-shadow: 0 0 15px rgba(255, 107, 139, 0.6),
+                   0 0 35px rgba(255, 107, 139, 0.3);
+      line-height: 1.1;
+      margin-bottom: 0.5rem;
+    }
+
+    .sub-title {
+      font-size: 1rem;
+      font-weight: 500;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--text-sub);
+      opacity: 0.85;
+    }
+
+    /* Cards Grid */
+    .grid-container {
+      width: 100%;
+      max-width: 1100px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      z-index: 1;
+      padding: 0 1rem;
+    }
+
+    .card-link {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      border-radius: 20px;
+      perspective: 1000px;
+    }
+
+    .card {
+      position: relative;
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                  border-color 0.4s ease,
+                  box-shadow 0.4s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-link:hover .card {
+      transform: translateY(-8px) scale(1.02);
+      border-color: var(--card-hover-border);
+      box-shadow: 0 18px 40px rgba(255, 107, 139, 0.25);
+    }
+
+    /* Image / Placeholder Area */
+    .card-image-box {
+      width: 100%;
+      height: 240px;
+      position: relative;
+      background: rgba(0, 0, 0, 0.25);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-image-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+
+    .card-link:hover .card-image-box img {
+      transform: scale(1.08);
+    }
+
+    /* Fallback placeholder state */
+    .placeholder-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 0.9rem;
+    }
+
+    .placeholder-content svg {
+      width: 42px;
+      height: 42px;
+      fill: currentColor;
+    }
+
+    /* Card Details */
+    .card-info {
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      background: rgba(18, 5, 12, 0.4);
+    }
+
+    .card-title {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .card-action-icon {
+      font-size: 1.2rem;
+      color: var(--accent-pink);
+      transition: transform 0.3s ease;
+    }
+
+    .card-link:hover .card-action-icon {
+      transform: translateX(4px);
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 4rem;
+      z-index: 1;
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--text-sub);
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="heart-canvas"></canvas>
+
+  <header class="header-container">
+    <h1 class="main-title">For My Neemu</h1>
+    <p class="sub-title">Happy Birthday My Love ✨</p>
+  </header>
+
+  <main class="grid-container">
+
+    <a href="page1.html" class="card-link">
+      <div class="card">
+        <div class="card-image-box">
+          <img src="" alt="Memory 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+          <div class="placeholder-content">
+            <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            <span>Add Picture 1</span>
+          </div>
+        </div>
+        <div class="card-info">
+          <span class="card-title">Chapter One</span>
+          <span class="card-action-icon">→</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- Card 2 -->
+<a href="page2.html" class="card-link">
+  <div class="card">
+    <div class="card-image-box">
+      <img src="photos/favorite-pic-cover.jpg" alt="My Favorite Pics" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+      <div class="placeholder-content">
+        <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        <span>Add Cover Picture</span>
+      </div>
+    </div>
+    <div class="card-info">
+      <span class="card-title">My Favorite Pics of Yours ✨</span>
+      <span class="card-action-icon">→</span>
+    </div>
+  </div>
+</a>
+
+    <a href="page3.html" class="card-link">
+      <div class="card">
+        <div class="card-image-box">
+          <img src="" alt="Memory 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+          <div class="placeholder-content">
+            <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            <span>Add Picture 3</span>
+          </div>
+        </div>
+        <div class="card-info">
+          <span class="card-title">Reasons I Love You</span>
+          <span class="card-action-icon">→</span>
+        </div>
+      </div>
+    </a>
+
+    <a href="page4.html" class="card-link">
+      <div class="card">
+        <div class="card-image-box">
+          <img src="" alt="Memory 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+          <div class="placeholder-content">
+            <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            <span>Add Picture 4</span>
+          </div>
+        </div>
+        <div class="card-info">
+          <span class="card-title">Our Playlist</span>
+          <span class="card-action-icon">→</span>
+        </div>
+      </div>
+    </a>
+
+    <a href="Page5/index.html" class="card-link">
+      <div class="card">
+        <div class="card-image-box">
+          <img src="" alt="Memory 5" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+          <div class="placeholder-content">
+            <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            <span>Add Picture 5</span>
+          </div>
+        </div>
+        <div class="card-info">
+          <span class="card-title">Special Surprise</span>
+          <span class="card-action-icon">→</span>
+        </div>
+      </div>
+    </a>
+
+    <a href="page6.html" class="card-link">
+      <div class="card">
+        <div class="card-image-box">
+          <img src="" alt="Memory 6" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+          <div class="placeholder-content">
+            <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            <span>Add Picture 6</span>
+          </div>
+        </div>
+        <div class="card-info">
+          <span class="card-title">A Letter For You</span>
+          <span class="card-action-icon">→</span>
+        </div>
+      </div>
+    </a>
+
+  </main>
+
+  <footer>
+    Made with all my heart ❤️
+  </footer>
+
+  <script>
+    const canvas = document.getElementById('heart-canvas');
+    const ctx = canvas.getContext('2d');
+
+    let hearts = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    class Heart {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = canvas.height + 20;
+        this.size = Math.random() * 14 + 8;
+        this.speedY = Math.random() * 1.2 + 0.5;
+        this.speedX = Math.sin(Math.random() * 2) * 0.4;
+        this.opacity = Math.random() * 0.4 + 0.1;
+        this.scale = 1;
+      }
+      update() {
+        this.y -= this.speedY;
+        this.x += this.speedX;
+        if (this.y < -20) {
+          this.reset();
+        }
+      }
+      draw() {
+        ctx.save();
+        ctx.globalAlpha = this.opacity;
+        ctx.fillStyle = '#ff6b8b';
+        ctx.beginPath();
+        const topCurveHeight = this.size * 0.3;
+        ctx.moveTo(this.x, this.y + topCurveHeight);
+        // top left curve
+        ctx.bezierCurveTo(
+          this.x, this.y, 
+          this.x - this.size / 2, this.y, 
+          this.x - this.size / 2, this.y + topCurveHeight
+        );
+        // bottom left curve
+        ctx.bezierCurveTo(
+          this.x - this.size / 2, this.y + (this.size + topCurveHeight) / 2, 
+          this.x, this.y + (this.size + topCurveHeight) / 2, 
+          this.x, this.y + this.size
+        );
+        // bottom right curve
+        ctx.bezierCurveTo(
+          this.x, this.y + (this.size + topCurveHeight) / 2, 
+          this.x + this.size / 2, this.y + (this.size + topCurveHeight) / 2, 
+          this.x + this.size / 2, this.y + topCurveHeight
+        );
+        // top right curve
+        ctx.bezierCurveTo(
+          this.x + this.size / 2, this.y, 
+          this.x, this.y, 
+          this.x, this.y + topCurveHeight
+        );
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    for (let i = 0; i < 28; i++) {
+      const heart = new Heart();
+      heart.y = Math.random() * canvas.height;
+      hearts.push(heart);
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      hearts.forEach(heart => {
+        heart.update();
+        heart.draw();
+      });
+      requestAnimationFrame(animate);
+    }
+    animate();
+  </script>
+</body>
+</html>

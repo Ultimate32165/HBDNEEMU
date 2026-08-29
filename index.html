@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Happy Birthday Neemu ❤️</title>
   
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -34,13 +35,65 @@
       color: var(--text-main);
       overflow-x: hidden;
       position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 2.5rem 1rem 4rem;
     }
 
-    /* Floating background hearts canvas */
+    /* Persistent Audio Player Floating Widget */
+    .audio-player-widget {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 9999;
+      background: rgba(31, 11, 20, 0.85);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 107, 139, 0.5);
+      border-radius: 40px;
+      padding: 8px 16px 8px 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 107, 139, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .audio-player-widget:hover {
+      box-shadow: 0 10px 30px rgba(255, 107, 139, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .play-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: none;
+      background: linear-gradient(135deg, var(--accent-pink), #ff477e);
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      outline: none;
+      transition: transform 0.2s ease;
+    }
+
+    .play-btn:hover {
+      transform: scale(1.08);
+    }
+
+    .music-info {
+      font-size: 0.82rem;
+      color: var(--text-sub);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .music-title {
+      font-weight: 600;
+      color: #fff;
+    }
+
+    /* Floating Heart Canvas */
     #heart-canvas {
       position: fixed;
       top: 0;
@@ -51,12 +104,23 @@
       z-index: 0;
     }
 
+    /* Dynamic Page Container */
+    #app-container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2.5rem 1rem 5rem;
+      transition: opacity 0.25s ease;
+    }
+
     /* Header Section */
     .header-container {
       text-align: center;
-      z-index: 1;
       margin-bottom: 3rem;
-      position: relative;
     }
 
     .main-title {
@@ -65,8 +129,7 @@
       font-weight: 400;
       letter-spacing: 2px;
       color: #fff;
-      text-shadow: 0 0 15px rgba(255, 107, 139, 0.6),
-                   0 0 35px rgba(255, 107, 139, 0.3);
+      text-shadow: 0 0 15px rgba(255, 107, 139, 0.6), 0 0 35px rgba(255, 107, 139, 0.3);
       line-height: 1.1;
       margin-bottom: 0.5rem;
     }
@@ -87,7 +150,6 @@
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 2rem;
-      z-index: 1;
       padding: 0 1rem;
     }
 
@@ -96,7 +158,7 @@
       color: inherit;
       display: block;
       border-radius: 20px;
-      perspective: 1000px;
+      cursor: pointer;
     }
 
     .card {
@@ -108,9 +170,7 @@
       border-radius: 20px;
       overflow: hidden;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-                  border-color 0.4s ease,
-                  box-shadow 0.4s ease;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.4s ease, box-shadow 0.4s ease;
       display: flex;
       flex-direction: column;
     }
@@ -121,7 +181,6 @@
       box-shadow: 0 18px 40px rgba(255, 107, 139, 0.25);
     }
 
-    /* Image / Placeholder Area */
     .card-image-box {
       width: 100%;
       height: 240px;
@@ -144,7 +203,6 @@
       transform: scale(1.08);
     }
 
-    /* Fallback placeholder state */
     .placeholder-content {
       display: flex;
       flex-direction: column;
@@ -160,7 +218,6 @@
       fill: currentColor;
     }
 
-    /* Card Details */
     .card-info {
       padding: 1.25rem 1.5rem;
       display: flex;
@@ -179,17 +236,10 @@
     .card-action-icon {
       font-size: 1.2rem;
       color: var(--accent-pink);
-      transition: transform 0.3s ease;
     }
 
-    .card-link:hover .card-action-icon {
-      transform: translateX(4px);
-    }
-
-    /* Footer */
     footer {
       margin-top: 4rem;
-      z-index: 1;
       text-align: center;
       font-size: 0.9rem;
       color: var(--text-sub);
@@ -199,123 +249,256 @@
 </head>
 <body>
 
+  <!-- Hidden HTML5 Audio Element (Plays seamlessly) -->
+  <audio id="bg-audio" loop preload="auto">
+    <!-- Set your song file here -->
+    <source src="song.mp3" type="audio/mpeg" />
+  </audio>
+
+  <!-- Persistent Floating Music Player Controller -->
+  <div class="audio-player-widget">
+    <button class="play-btn" id="musicToggleBtn" aria-label="Play Music">▶</button>
+    <div class="music-info">
+      <span class="music-title">Our Song 🎵</span>
+      <span id="music-status">Click to Play</span>
+    </div>
+  </div>
+
+  <!-- Background Animated Hearts -->
   <canvas id="heart-canvas"></canvas>
 
-  <header class="header-container">
-    <h1 class="main-title">For My Neemu</h1>
-    <p class="sub-title">Happy Birthday My Love ✨</p>
-  </header>
+  <!-- Dynamic Content Area -->
+  <div id="app-container">
 
-  <main class="grid-container">
+    <header class="header-container">
+      <h1 class="main-title">For My Neemu</h1>
+      <p class="sub-title">Happy Birthday My Love ✨</p>
+    </header>
 
-    <a href="page1.html" class="card-link">
-      <div class="card">
-        <div class="card-image-box">
-          <img src="" alt="Memory 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-          <div class="placeholder-content">
-            <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-            <span>Add Picture 1</span>
+    <main class="grid-container">
+
+      <!-- Card 1 -->
+      <a href="page1.html" class="card-link spa-link">
+        <div class="card">
+          <div class="card-image-box">
+            <img src="img1.png" alt="Chapter One" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="placeholder-content">
+              <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+              <span>Add Picture 1</span>
+            </div>
+          </div>
+          <div class="card-info">
+            <span class="card-title">Chapter One</span>
+            <span class="card-action-icon">→</span>
           </div>
         </div>
-        <div class="card-info">
-          <span class="card-title">Chapter One</span>
-          <span class="card-action-icon">→</span>
-        </div>
-      </div>
-    </a>
+      </a>
 
-    <a href="page2.html" class="card-link">
-      <div class="card">
-        <div class="card-image-box">
-          <img src="" alt="Memory 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-          <div class="placeholder-content">
-            <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-            <span>Add Picture 2</span>
+      <!-- Card 2 -->
+      <a href="page2.html" class="card-link spa-link">
+        <div class="card">
+          <div class="card-image-box">
+            <img src="" alt="My Favorite Pics" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="placeholder-content">
+              <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+              <span>Add Picture 2</span>
+            </div>
+          </div>
+          <div class="card-info">
+            <span class="card-title">My Favorite Pics ✨</span>
+            <span class="card-action-icon">→</span>
           </div>
         </div>
-        <div class="card-info">
-          <span class="card-title">Our Best Moments</span>
-          <span class="card-action-icon">→</span>
-        </div>
-      </div>
-    </a>
+      </a>
 
-    <a href="page3.html" class="card-link">
-      <div class="card">
-        <div class="card-image-box">
-          <img src="" alt="Memory 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-          <div class="placeholder-content">
-            <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-            <span>Add Picture 3</span>
+      <!-- Card 3 -->
+      <a href="page3.html" class="card-link spa-link">
+        <div class="card">
+          <div class="card-image-box">
+            <img src="" alt="Memory 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="placeholder-content">
+              <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+              <span>Add Picture 3</span>
+            </div>
+          </div>
+          <div class="card-info">
+            <span class="card-title">Reasons I Love You</span>
+            <span class="card-action-icon">→</span>
           </div>
         </div>
-        <div class="card-info">
-          <span class="card-title">Reasons I Love You</span>
-          <span class="card-action-icon">→</span>
-        </div>
-      </div>
-    </a>
+      </a>
 
-    <a href="page4.html" class="card-link">
-      <div class="card">
-        <div class="card-image-box">
-          <img src="" alt="Memory 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-          <div class="placeholder-content">
-            <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-            <span>Add Picture 4</span>
+      <!-- Card 4 -->
+      <a href="page4.html" class="card-link spa-link">
+        <div class="card">
+          <div class="card-image-box">
+            <img src="" alt="Memory 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="placeholder-content">
+              <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+              <span>Add Picture 4</span>
+            </div>
+          </div>
+          <div class="card-info">
+            <span class="card-title">Our Playlist</span>
+            <span class="card-action-icon">→</span>
           </div>
         </div>
-        <div class="card-info">
-          <span class="card-title">Our Playlist</span>
-          <span class="card-action-icon">→</span>
-        </div>
-      </div>
-    </a>
+      </a>
 
-    <a href="Page5/index.html" class="card-link">
-      <div class="card">
-        <div class="card-image-box">
-          <img src="" alt="Memory 5" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-          <div class="placeholder-content">
-            <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-            <span>Add Picture 5</span>
+      <!-- Card 5 -->
+      <a href="Page5/index.html" class="card-link spa-link">
+        <div class="card">
+          <div class="card-image-box">
+            <img src="" alt="Memory 5" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="placeholder-content">
+              <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+              <span>Add Picture 5</span>
+            </div>
+          </div>
+          <div class="card-info">
+            <span class="card-title">Special Surprise</span>
+            <span class="card-action-icon">→</span>
           </div>
         </div>
-        <div class="card-info">
-          <span class="card-title">Special Surprise</span>
-          <span class="card-action-icon">→</span>
-        </div>
-      </div>
-    </a>
+      </a>
 
-    <a href="page6.html" class="card-link">
-      <div class="card">
-        <div class="card-image-box">
-          <img src="" alt="Memory 6" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-          <div class="placeholder-content">
-            <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-            <span>Add Picture 6</span>
+      <!-- Card 6 -->
+      <a href="https://openwhenletters.app/c/59e86db7-1821-4ccd-92b2-6be50fd17e7a/v/8c0c5feb0c74f2284ec7749f0d5b0da52800239e18cdc00e79c2f21bb706c977" class="card-link spa-link">
+        <div class="card">
+          <div class="card-image-box">
+            <img src="" alt="Memory 6" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="placeholder-content">
+              <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+              <span>Add Picture 6</span>
+            </div>
+          </div>
+          <div class="card-info">
+            <span class="card-title">A Letter For You</span>
+            <span class="card-action-icon">→</span>
           </div>
         </div>
-        <div class="card-info">
-          <span class="card-title">A Letter For You</span>
-          <span class="card-action-icon">→</span>
-        </div>
-      </div>
-    </a>
+      </a>
 
-  </main>
+    </main>
 
-  <footer>
-    Made with all my heart ❤️
-  </footer>
+    <footer>
+      Made with all my heart ❤️
+    </footer>
 
+  </div>
+
+  <!-- Audio Controls & SPA Seamless Page Navigation Script -->
   <script>
+    const audio = document.getElementById('bg-audio');
+    const playBtn = document.getElementById('musicToggleBtn');
+    const statusText = document.getElementById('music-status');
+    const appContainer = document.getElementById('app-container');
+
+    // Music Player logic
+    let isPlaying = false;
+
+    function toggleMusic() {
+      if (isPlaying) {
+        audio.pause();
+        playBtn.textContent = '▶';
+        statusText.textContent = 'Paused';
+        isPlaying = false;
+      } else {
+        audio.play().then(() => {
+          playBtn.textContent = '❚❚';
+          statusText.textContent = 'Playing ❤️';
+          isPlaying = true;
+        }).catch(err => {
+          console.log("Autoplay blocked, needs click:", err);
+        });
+      }
+    }
+
+    playBtn.addEventListener('click', toggleMusic);
+
+    // Auto-start music on very first user interaction
+    document.addEventListener('click', function startOnFirstClick() {
+      if (!isPlaying) {
+        audio.play().then(() => {
+          playBtn.textContent = '❚❚';
+          statusText.textContent = 'Playing ❤️';
+          isPlaying = true;
+        }).catch(() => {});
+      }
+      document.removeEventListener('click', startOnFirstClick);
+    }, { once: true });
+
+    // SPA Router: Load pages dynamically without reloading browser (Audio Keeps Playing!)
+    const originalHomeHTML = appContainer.innerHTML;
+
+    async function loadPage(url) {
+      if (url === 'index.html' || url === '' || url === window.location.pathname) {
+        appContainer.style.opacity = '0';
+        setTimeout(() => {
+          appContainer.innerHTML = originalHomeHTML;
+          attachNavigationEvents();
+          appContainer.style.opacity = '1';
+          window.scrollTo(0, 0);
+        }, 200);
+        return;
+      }
+
+      try {
+        appContainer.style.opacity = '0';
+        const response = await fetch(url);
+        const html = await response.text();
+
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+
+        setTimeout(() => {
+          // Replace body content
+          appContainer.innerHTML = doc.body.innerHTML;
+
+          // Re-execute scripts from the loaded page so games/decks work
+          const scripts = doc.querySelectorAll('script');
+          scripts.forEach(oldScript => {
+            const newScript = document.createElement('script');
+            if (oldScript.src) {
+              newScript.src = oldScript.src;
+            } else {
+              newScript.textContent = oldScript.textContent;
+            }
+            document.body.appendChild(newScript);
+          });
+
+          // Inject any specific styles from that page
+          const styles = doc.querySelectorAll('style, link[rel="stylesheet"]');
+          styles.forEach(style => document.head.appendChild(style.cloneNode(true)));
+
+          attachNavigationEvents();
+          appContainer.style.opacity = '1';
+          window.scrollTo(0, 0);
+        }, 200);
+
+      } catch (err) {
+        console.error("Failed to load page dynamically:", err);
+        window.location.href = url; // Fallback to normal navigation
+      }
+    }
+
+    function attachNavigationEvents() {
+      document.querySelectorAll('a').forEach(anchor => {
+        const href = anchor.getAttribute('href');
+        if (href && !href.startsWith('http') && !href.startsWith('#')) {
+          anchor.onclick = (e) => {
+            e.preventDefault();
+            loadPage(href);
+          };
+        }
+      });
+    }
+
+    attachNavigationEvents();
+
+    // Floating Hearts Animation on Canvas
     const canvas = document.getElementById('heart-canvas');
     const ctx = canvas.getContext('2d');
-
-    let hearts = [];
-
     function resizeCanvas() {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -324,9 +507,7 @@
     window.addEventListener('resize', resizeCanvas);
 
     class Heart {
-      constructor() {
-        this.reset();
-      }
+      constructor() { this.reset(); }
       reset() {
         this.x = Math.random() * canvas.width;
         this.y = canvas.height + 20;
@@ -334,64 +515,33 @@
         this.speedY = Math.random() * 1.2 + 0.5;
         this.speedX = Math.sin(Math.random() * 2) * 0.4;
         this.opacity = Math.random() * 0.4 + 0.1;
-        this.scale = 1;
       }
       update() {
         this.y -= this.speedY;
         this.x += this.speedX;
-        if (this.y < -20) {
-          this.reset();
-        }
+        if (this.y < -20) this.reset();
       }
       draw() {
         ctx.save();
         ctx.globalAlpha = this.opacity;
         ctx.fillStyle = '#ff6b8b';
         ctx.beginPath();
-        const topCurveHeight = this.size * 0.3;
-        ctx.moveTo(this.x, this.y + topCurveHeight);
-        // top left curve
-        ctx.bezierCurveTo(
-          this.x, this.y, 
-          this.x - this.size / 2, this.y, 
-          this.x - this.size / 2, this.y + topCurveHeight
-        );
-        // bottom left curve
-        ctx.bezierCurveTo(
-          this.x - this.size / 2, this.y + (this.size + topCurveHeight) / 2, 
-          this.x, this.y + (this.size + topCurveHeight) / 2, 
-          this.x, this.y + this.size
-        );
-        // bottom right curve
-        ctx.bezierCurveTo(
-          this.x, this.y + (this.size + topCurveHeight) / 2, 
-          this.x + this.size / 2, this.y + (this.size + topCurveHeight) / 2, 
-          this.x + this.size / 2, this.y + topCurveHeight
-        );
-        // top right curve
-        ctx.bezierCurveTo(
-          this.x + this.size / 2, this.y, 
-          this.x, this.y, 
-          this.x, this.y + topCurveHeight
-        );
+        const top = this.size * 0.3;
+        ctx.moveTo(this.x, this.y + top);
+        ctx.bezierCurveTo(this.x, this.y, this.x - this.size / 2, this.y, this.x - this.size / 2, this.y + top);
+        ctx.bezierCurveTo(this.x - this.size / 2, this.y + (this.size + top) / 2, this.x, this.y + (this.size + top) / 2, this.x, this.y + this.size);
+        ctx.bezierCurveTo(this.x, this.y + (this.size + top) / 2, this.x + this.size / 2, this.y + (this.size + top) / 2, this.x + this.size / 2, this.y + top);
+        ctx.bezierCurveTo(this.x + this.size / 2, this.y, this.x, this.y, this.x, this.y + top);
         ctx.closePath();
         ctx.fill();
         ctx.restore();
       }
     }
 
-    for (let i = 0; i < 28; i++) {
-      const heart = new Heart();
-      heart.y = Math.random() * canvas.height;
-      hearts.push(heart);
-    }
-
+    let hearts = Array.from({ length: 25 }, () => new Heart());
     function animate() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      hearts.forEach(heart => {
-        heart.update();
-        heart.draw();
-      });
+      hearts.forEach(h => { h.update(); h.draw(); });
       requestAnimationFrame(animate);
     }
     animate();
