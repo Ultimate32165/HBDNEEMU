@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reasons I Love You | For My Neemu ❤️</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Great+Vibes&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #1f0b14 0%, #381223 50%, #1a0812 100%);
+      --accent-pink: #ff6b8b;
+      --accent-gold: #ffd166;
+      --card-bg: rgba(255, 255, 255, 0.08);
+      --card-border: rgba(255, 182, 193, 0.25);
+      --text-main: #fff0f5;
+      --text-sub: #f3c5d3;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg-gradient);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2.5rem 1rem 4rem;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+      z-index: 1;
+    }
+
+    .title {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(3rem, 7vw, 4.8rem);
+      margin-bottom: 0.3rem;
+      text-shadow: 0 0 15px rgba(255, 107, 139, 0.6);
+    }
+
+    .subtitle {
+      color: var(--text-sub);
+      font-size: 0.95rem;
+      letter-spacing: 1px;
+    }
+
+    /* Controls & Progress */
+    .controls-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+      z-index: 1;
+    }
+
+    .counter-badge {
+      background: rgba(255, 107, 139, 0.15);
+      border: 1px solid rgba(255, 107, 139, 0.4);
+      padding: 0.5rem 1.2rem;
+      border-radius: 30px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--accent-gold);
+    }
+
+    .action-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 182, 193, 0.3);
+      color: #fff;
+      padding: 0.5rem 1.1rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      font-family: inherit;
+    }
+
+    .action-btn:hover {
+      background: rgba(255, 107, 139, 0.3);
+      border-color: var(--accent-pink);
+    }
+
+    /* Grid Layout */
+    .reasons-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 1.5rem;
+      width: 100%;
+      max-width: 1200px;
+      z-index: 1;
+      padding: 0 0.5rem;
+    }
+
+    /* Outer Box */
+    .reason-box {
+      position: relative;
+      height: 190px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
+      overflow: hidden;
+      perspective: 800px;
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .reason-box:hover {
+      border-color: rgba(255, 107, 139, 0.5);
+    }
+
+    /* Hidden Text Card Underneath */
+    .secret-text-content {
+      position: absolute;
+      inset: 0;
+      padding: 1.2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      overflow-y: auto;
+      user-select: text;
+    }
+
+    /* Custom Scrollbar for Individual Long Text Boxes */
+    .secret-text-content::-webkit-scrollbar {
+      width: 5px;
+    }
+    .secret-text-content::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 10px;
+    }
+    .secret-text-content::-webkit-scrollbar-thumb {
+      background: rgba(255, 107, 139, 0.5);
+      border-radius: 10px;
+    }
+    .secret-text-content::-webkit-scrollbar-thumb:hover {
+      background: var(--accent-pink);
+    }
+
+    .reason-num-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--accent-gold);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 0.35rem;
+      opacity: 0.85;
+      flex-shrink: 0;
+    }
+
+    .reason-body {
+      color: #fff;
+      font-weight: 500;
+      line-height: 1.45;
+      width: 100%;
+      word-break: break-word;
+    }
+
+    /* Dynamic Font Classes */
+    .font-large { font-size: 1.15rem; font-weight: 600; }
+    .font-medium { font-size: 0.95rem; }
+    .font-small { font-size: 0.84rem; line-height: 1.35; text-align: left; }
+
+    /* Sticky Note Cover */
+    .sticky-note-cover {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #ffd166 0%, #ffc043 100%);
+      color: #3b1900;
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+      z-index: 5;
+      transform-origin: top left;
+      transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.5s ease;
+    }
+
+    /* Color variations for sticky notes */
+    .sticky-note-cover.pink {
+      background: linear-gradient(135deg, #ff8fa3 0%, #ff6b8b 100%);
+      color: #3a0011;
+    }
+    .sticky-note-cover.rose {
+      background: linear-gradient(135deg, #fbcfe8 0%, #f472b6 100%);
+      color: #4a0429;
+    }
+    .sticky-note-cover.peach {
+      background: linear-gradient(135deg, #fed7aa 0%, #fb923c 100%);
+      color: #431407;
+    }
+
+    /* Tape / Pin graphic on sticky note */
+    .tape {
+      position: absolute;
+      top: -6px;
+      width: 44px;
+      height: 14px;
+      background: rgba(255, 255, 255, 0.55);
+      backdrop-filter: blur(2px);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+      border-radius: 2px;
+      transform: rotate(-2deg);
+    }
+
+    .sticky-title {
+      font-family: 'Caveat', cursive;
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-top: 5px;
+    }
+
+    .tap-hint {
+      font-size: 0.72rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      opacity: 0.8;
+      margin-top: 4px;
+      font-weight: 700;
+    }
+
+    /* Peeling Away Animation */
+    .reason-box.peeled .sticky-note-cover {
+      transform: rotate(-25deg) translate(-120%, -100%) scale(0.6);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Bottom Nav */
+    .bottom-nav {
+      margin-top: 3.5rem;
+      z-index: 1;
+    }
+
+    .back-btn {
+      color: #fff;
+      text-decoration: none;
+      padding: 0.65rem 1.6rem;
+      border-radius: 30px;
+      background: rgba(255, 107, 139, 0.2);
+      border: 1px solid rgba(255, 107, 139, 0.5);
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background: rgba(255, 107, 139, 0.4);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <h1 class="title">Reasons I Love You</h1>
+    <p class="subtitle">Peel each sticky note to reveal a little piece of my heart ✨</p>
+  </header>
+
+  <!-- Control Actions -->
+  <div class="controls-bar">
+    <div class="counter-badge" id="counterDisplay">0 / 50 Unlocked</div>
+    <button class="action-btn" onclick="revealAll()">Peel All 💌</button>
+    <button class="action-btn" onclick="coverAll()">Cover All ↺</button>
+  </div>
+
+  <!-- 50 Interactive Boxes Grid -->
+  <main class="reasons-grid" id="reasonsGrid">
+    <!-- Generated dynamically via JavaScript -->
+  </main>
+
+  <footer class="bottom-nav">
+    <a href="index.html" class="back-btn">← Back to Home</a>
+  </footer>
+
+  <script>
+    // List of 50 Romantic Reasons (feel free to edit or add more!)
+    const reasonsList = [
+      "The way your smile instantly fixes my entire mood, no matter how bad my day was.",
+      "How cute you look when you get sleepy and softly talk to me.",
+      "Your laugh that makes my heart flutter every single time.",
+      "How caring and protective you are toward me.",
+      "The way you say my name—it sounds special only when you say it.",
+      "Even when we fight, we always find our way back to each other.",
+      "Because talking to you every day since February has become my favorite habit.",
+      "How effortlessly beautiful you look, even without trying at all.",
+      "Your warm, kind heart that cares so deeply about people.",
+      "The cute little voices and random silly noises you make when you're happy.",
+      "Because you understand my silent moods without me having to explain.",
+      "The way your eyes light up when you talk about things you love.",
+      "How patient you are with me when I get stubborn or emotional.",
+      "Because you make ordinary days feel like a scene from a dream.",
+      "The warmth and peace I feel just by hearing your voice.",
+      "How you always make sure I've eaten and taken care of myself.",
+      "Because you're not just my girlfriend, you're my best friend and safe space.",
+      "The sweet and random messages you send that make me blush alone.",
+      "How you look at me like I am the only person in the room.",
+      "Because you believe in me even during times when I doubt myself.",
+      "Your unique sense of humor that always gets me giggling.",
+      "How we can talk for hours about completely random things and never get bored.",
+      "The way you pamper me when I need comfort the most.",
+      "Because my world felt incomplete until you walked right into it.",
+      "How pretty you look when you get all shy and blush.",
+      "Because every song on our playlist reminds me of you.",
+      "The way you remember tiny details about me that I didn't even notice.",
+      "Because loving you is the easiest, most natural choice I've ever made.",
+      "Your gentle touch and how safe I feel in your arms.",
+      "How we have our own secret jokes that nobody else understands.",
+      "Because you forgive my flaws and love me for exactly who I am.",
+      "The cute photos and selfies you send that become my instant favorites.",
+      "Because seeing you happy gives me the greatest joy in life.",
+      "The way you motivate me to be a better person every single day.",
+      "How you listen to my long rants without ever complaining.",
+      "Because you're the first person I want to tell good news to.",
+      "How sweet and gentle you are when you comfort me.",
+      "Because late nights with you feel like only five minutes.",
+      "The way you randomly check in on me throughout the day.",
+      "Because your hugs have the power to heal all my stress.",
+      "How adorable you look when you get genuinely surprised.",
+      "Because you never let our arguments ruin the love we share.",
+      "The excitement I feel every time your name pops up on my phone screen.",
+      "How you make every single memory together unforgettable.",
+      "Because no matter where I go, you will always be my home.",
+      "Your cute little pout whenever you pretend to be mad at me.",
+      "Because you love me unconditionally and wholeheartedly.",
+      "How lucky I feel to wake up knowing you are mine.",
+      "Because you're my favorite person in this entire universe.",
+      "And simply because you are you, my sweet Neemu—forever & always. ❤️"
+    ];
+
+    const grid = document.getElementById('reasonsGrid');
+    const counterDisplay = document.getElementById('counterDisplay');
+    const colors = ['', 'pink', 'rose', 'peach'];
+
+    let unlockedCount = 0;
+
+    function renderReasons() {
+      grid.innerHTML = '';
+      reasonsList.forEach((text, index) => {
+        const box = document.createElement('div');
+        box.className = 'reason-box';
+        box.id = `box-${index}`;
+
+        // Choose dynamic font class based on word count
+        const wordCount = text.split(' ').length;
+        let fontClass = 'font-large';
+        if (wordCount > 18) {
+          fontClass = 'font-small';
+        } else if (wordCount > 9) {
+          fontClass = 'font-medium';
+        }
+
+        const colorClass = colors[index % colors.length];
+
+        box.innerHTML = `
+          <!-- Hidden text inside -->
+          <div class="secret-text-content">
+            <span class="reason-num-tag">Reason #${index + 1}</span>
+            <p class="reason-body ${fontClass}">${text}</p>
+          </div>
+
+          <!-- Sticky note cover -->
+          <div class="sticky-note-cover ${colorClass}" onclick="peelNote(${index})">
+            <div class="tape"></div>
+            <span class="sticky-title">#${index + 1}</span>
+            <span class="tap-hint">Tap to open ✨</span>
+          </div>
+        `;
+
+        grid.appendChild(box);
+      });
+      updateCounter();
+    }
+
+    function peelNote(index) {
+      const box = document.getElementById(`box-${index}`);
+      if (!box.classList.contains('peeled')) {
+        box.classList.add('peeled');
+        unlockedCount++;
+        updateCounter();
+      }
+    }
+
+    function revealAll() {
+      document.querySelectorAll('.reason-box').forEach(box => {
+        box.classList.add('peeled');
+      });
+      unlockedCount = reasonsList.length;
+      updateCounter();
+    }
+
+    function coverAll() {
+      document.querySelectorAll('.reason-box').forEach(box => {
+        box.classList.remove('peeled');
+      });
+      unlockedCount = 0;
+      updateCounter();
+    }
+
+    function updateCounter() {
+      counterDisplay.textContent = `${unlockedCount} / ${reasonsList.length} Unlocked`;
+    }
+
+    renderReasons();
+  </script>
+</body>
+</html>
