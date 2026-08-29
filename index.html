@@ -182,22 +182,22 @@
     }
 
     .card-image-box {
-      width: 100%;
-      height: 240px;
-      position: relative;
-      background: rgba(0, 0, 0, 0.25);
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+  width: 100%;
+  height: 240px;
+  position: relative;
+  background: rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  display: block; /* Change from flex to block */
+}
 
-    .card-image-box img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.6s ease;
-    }
+.card-image-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 0.6s ease;
+}
 
     .card-link:hover .card-image-box img {
       transform: scale(1.08);
@@ -298,7 +298,7 @@
       <a href="page2.html" class="card-link spa-link">
         <div class="card">
           <div class="card-image-box">
-            <img src="" alt="My Favorite Pics" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <img src="img2.png" alt="My Favorite Pics" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
             <div class="placeholder-content">
               <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
               <span>Add Picture 2</span>
@@ -332,7 +332,7 @@
       <a href="page4.html" class="card-link spa-link">
         <div class="card">
           <div class="card-image-box">
-            <img src="" alt="Memory 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <img src="img4.png" alt="Memory 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
             <div class="placeholder-content">
               <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
               <span>Add Picture 4</span>
@@ -349,7 +349,7 @@
       <a href="Page5/index.html" class="card-link spa-link">
         <div class="card">
           <div class="card-image-box">
-            <img src="" alt="Memory 5" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <img src="img5.png" alt="Memory 5" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
             <div class="placeholder-content">
               <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
               <span>Add Picture 5</span>
@@ -366,7 +366,7 @@
       <a href="https://openwhenletters.app/c/59e86db7-1821-4ccd-92b2-6be50fd17e7a/v/8c0c5feb0c74f2284ec7749f0d5b0da52800239e18cdc00e79c2f21bb706c977" class="card-link spa-link">
         <div class="card">
           <div class="card-image-box">
-            <img src="" alt="Memory 6" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <img src="img6.png" alt="Memory 6" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
             <div class="placeholder-content">
               <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
               <span>Add Picture 6</span>
