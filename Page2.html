@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our Best Moments | For My Neemu ❤️</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #1f0b14 0%, #381223 50%, #1a0812 100%);
+      --accent-pink: #ff6b8b;
+      --accent-gold: #ffd166;
+      --card-border: rgba(255, 182, 193, 0.35);
+      --text-main: #fff0f5;
+      --text-sub: #f3c5d3;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg-gradient);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 2rem 1rem;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      z-index: 2;
+    }
+
+    .title {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(3rem, 7vw, 4.5rem);
+      margin-bottom: 0.2rem;
+      text-shadow: 0 0 15px rgba(255, 107, 139, 0.6);
+    }
+
+    .hint {
+      color: var(--text-sub);
+      font-size: 0.95rem;
+      letter-spacing: 1px;
+      opacity: 0.9;
+    }
+
+    /* Deck Container */
+    .deck-container {
+      position: relative;
+      width: 320px;
+      height: 440px;
+      margin: 2rem 0;
+      perspective: 1000px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+    }
+
+    /* Individual Card */
+    .photo-card {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 14px 14px 20px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.45);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.4s ease, box-shadow 0.3s ease;
+      transform-origin: center bottom;
+    }
+
+    .photo-card:hover {
+      box-shadow: 0 20px 40px rgba(255, 107, 139, 0.35);
+    }
+
+    .photo-box {
+      width: 100%;
+      height: 320px;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #2b111e;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .photo-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Fallback placeholder */
+    .placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 0.9rem;
+    }
+
+    .placeholder svg {
+      width: 44px;
+      height: 44px;
+      fill: currentColor;
+    }
+
+    .caption {
+      text-align: center;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #331522;
+      margin-top: 10px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    /* Swipe-off animations */
+    .photo-card.swipe-left {
+      transform: translate(-150%, -20%) rotate(-35deg) scale(0.8) !important;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .photo-card.swipe-right {
+      transform: translate(150%, -20%) rotate(35deg) scale(0.8) !important;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Empty state box when all cards are swiped */
+    .empty-state {
+      position: absolute;
+      text-align: center;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      padding: 2.5rem 1.5rem;
+      border-radius: 20px;
+      border: 1px solid var(--card-border);
+      width: 100%;
+    }
+
+    .empty-state h3 {
+      font-size: 1.4rem;
+      color: #fff;
+    }
+
+    .empty-state p {
+      font-size: 0.9rem;
+      color: var(--text-sub);
+    }
+
+    .reset-btn {
+      background: linear-gradient(135deg, var(--accent-pink), #ff477e);
+      border: none;
+      color: #fff;
+      padding: 0.6rem 1.4rem;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(255, 107, 139, 0.4);
+      transition: transform 0.2s ease;
+    }
+
+    .reset-btn:hover {
+      transform: scale(1.05);
+    }
+
+    /* Navigation / Back Button */
+    .controls {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      z-index: 2;
+    }
+
+    .nav-btn {
+      color: #fff;
+      text-decoration: none;
+      padding: 0.6rem 1.4rem;
+      border-radius: 30px;
+      background: rgba(255, 107, 139, 0.2);
+      border: 1px solid rgba(255, 107, 139, 0.5);
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+
+    .nav-btn:hover {
+      background: rgba(255, 107, 139, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .card-counter {
+      color: var(--text-sub);
+      font-size: 0.95rem;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1 class="title">Our Best Moments</h1>
+    <p class="hint">Tap a card to reveal the next memory ✨</p>
+  </div>
+
+  <!-- Deck of 10 Image Cards -->
+  <div class="deck-container" id="deck">
+
+    <!-- Card 1 (Bottom) -->
+    <div class="photo-card" data-index="1">
+      <div class="photo-box">
+        <img src="" alt="Memory 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+        <div class="placeholder">
+          <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+          <span>Add Photo 1</span>
+        </div>
+      </div>
+      <div class="caption">Where our whole story began 💫</div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="photo-card" data-index="2">
+      <div class="photo-box">
+        <img src="" alt="Memory 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+        <div class="placeholder">
+          <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+          <span>Add Photo 2</span>
+        </div>
+      </div>
+      <div class="caption">Our first candid laugh together 😂❤️</div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="photo-card" data-index="3">
+      <div class="photo-box">
+        <img src="" alt="Memory 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+        <div class="placeholder">
+          <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+          <span>Add Photo 3</span>
+        </div>
+      </div>
+      <div class="caption">That smile that melts everything ✨</div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="photo-card" data-index="4">
+      <div class="photo-box">
+        <img src="" alt="Memory 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+        <div class="placeholder">
+          <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+          <span>Add Photo 4</span>
+        </div>
+      </div>
+      <div class="caption">One of my all-time favorite dates ☕</div>
+    </div>
+
+    <!-- Card 5 -->
+    <div class="photo-card" data-index="5">
+      <div class="photo-box">
+        <img src="" alt="Memory 5" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+        <div class="placeholder">
+          <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+          <span>Add Photo 5</span>
+        </div>
+      </div>
+      <div class="caption">Late night talks that felt like 5 mins 🌙</div>
+    </div>
+
+    <!-- Card 6 -->
+    <div class="photo-card" data-index="6">
+      <div class="photo-box">
+        <img src="" alt="Memory 6" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+        <div class="placeholder">
+          <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+          <span>Add Photo 6</span>
+        </div>
+      </div>
+      <div class="caption">You looking breathtaking as always 🌸</div>
+    </div>
+
+    <!-- Card 7 -->
+    <div class="photo-card" data-index="7">
+      <div class="photo-box">
+        <img src="" alt="Memory 7" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+        <div class="placeholder">
+          <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+          <span>Add Photo 7</span>
+        </div>
+      </div>
+      <div class="caption">Our random goofy adventures 🍦</div>
+    </div>
+
+    <!-- Card 8 -->
+    <div class="photo-card" data-index="8">
+      <div class="photo-box">
+        <img src="" alt="Memory 8" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+        <div class="placeholder">
+          <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+          <span>Add Photo 8</span>
+        </div>
+      </div>
+      <div class="caption">The moment I realized I fell so hard 💘</div>
+    </div>
+
+    <!-- Card 9 -->
+    <div class="photo-card" data-index="9">
+      <div class="photo-box">
+        <img src="" alt="Memory 9" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+        <div class="placeholder">
+          <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+          <span>Add Photo 9</span>
+        </div>
+      </div>
+      <div class="caption">My absolute favorite human ever 🥰</div>
+    </div>
+
+    <!-- Card 10 (Top Initial Card) -->
+    <div class="photo-card" data-index="10">
+      <div class="photo-box">
+        <img src="" alt="Memory 10" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+        <div class="placeholder">
+          <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+          <span>Add Photo 10</span>
+        </div>
+      </div>
+      <div class="caption">Happy Birthday to my whole world! 💖🎂</div>
+    </div>
+
+    <!-- Empty State Message -->
+    <div class="empty-state" id="emptyState">
+      <h3>And so many more to make! 💕</h3>
+      <p>I love every single second with you, Neemu.</p>
+      <button class="reset-btn" onclick="resetDeck()">View Deck Again ↺</button>
+    </div>
+
+  </div>
+
+  <div class="controls">
+    <a href="index.html" class="nav-btn">← Home</a>
+    <span class="card-counter" id="counter">5 memories left</span>
+  </div>
+
+  <script>
+  const deck = document.getElementById('deck');
+  const cards = Array.from(deck.querySelectorAll('.photo-card'));
+  const emptyState = document.getElementById('emptyState');
+  const counter = document.getElementById('counter');
+
+  const rotations = [-3, 2.5, -2, 3, -1.5, 2, -3.5, 1.5, -2.5, 0];
+  let remainingCards = [...cards];
+
+  function applyDeckStyles() {
+    remainingCards.forEach((card, index) => {
+      card.style.zIndex = index + 1;
+      const rot = rotations[index % rotations.length];
+      // Subtle layered elevation
+      const translateY = (remainingCards.length - 1 - index) * -2;
+      card.style.transform = `translateY(${translateY}px) rotate(${rot}deg)`;
+    });
+    updateCounter();
+  }
+
+  function updateCounter() {
+    if (remainingCards.length > 0) {
+      counter.textContent = `${remainingCards.length} ${remainingCards.length === 1 ? 'memory' : 'memories'} left`;
+      emptyState.style.display = 'none';
+    } else {
+      counter.textContent = 'All memories viewed ❤️';
+      emptyState.style.display = 'flex';
+    }
+  }
+
+  cards.forEach(card => {
+    card.addEventListener('click', () => {
+      // Only the top-most card can be swiped
+      if (card !== remainingCards[remainingCards.length - 1]) return;
+
+      const swipeDirection = Math.random() > 0.5 ? 'swipe-right' : 'swipe-left';
+      card.classList.add(swipeDirection);
+
+      remainingCards.pop();
+      applyDeckStyles();
+    });
+  });
+
+  function resetDeck() {
+    cards.forEach(card => {
+      card.classList.remove('swipe-left', 'swipe-right');
+    });
+    remainingCards = [...cards];
+    applyDeckStyles();
+  }
+
+  applyDeckStyles();
+</script>
+</body>
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chapter One | Fun & Games for Neemu ❤️</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #1f0b14 0%, #381223 50%, #1a0812 100%);
+      --accent-pink: #ff6b8b;
+      --accent-gold: #ffd166;
+      --card-bg: rgba(255, 255, 255, 0.08);
+      --card-border: rgba(255, 182, 193, 0.25);
+      --card-hover-border: rgba(255, 107, 139, 0.6);
+      --text-main: #fff0f5;
+      --text-sub: #f3c5d3;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg-gradient);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 3rem 1.5rem;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+      z-index: 1;
+    }
+
+    .title {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(3.2rem, 7vw, 4.8rem);
+      margin-bottom: 0.3rem;
+      text-shadow: 0 0 15px rgba(255, 107, 139, 0.6);
+    }
+
+    .subtitle {
+      color: var(--text-sub);
+      font-size: 1rem;
+      letter-spacing: 1px;
+    }
+
+    /* Selection Cards Container */
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 340px));
+      gap: 2rem;
+      width: 100%;
+      max-width: 760px;
+      justify-content: center;
+      z-index: 1;
+      margin: auto 0;
+    }
+
+    .game-card-link {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      border-radius: 24px;
+    }
+
+    .game-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1.5px solid var(--card-border);
+      border-radius: 24px;
+      padding: 2.2rem 1.8rem;
+      text-align: center;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                  border-color 0.4s ease,
+                  box-shadow 0.4s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.2rem;
+      height: 100%;
+    }
+
+    .game-card-link:hover .game-card {
+      transform: translateY(-8px) scale(1.02);
+      border-color: var(--card-hover-border);
+      box-shadow: 0 20px 45px rgba(255, 107, 139, 0.3);
+    }
+
+    .game-icon-box {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: rgba(255, 107, 139, 0.15);
+      border: 1px solid rgba(255, 107, 139, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      box-shadow: 0 0 20px rgba(255, 107, 139, 0.25);
+      transition: transform 0.3s ease;
+    }
+
+    .game-card-link:hover .game-icon-box {
+      transform: scale(1.1) rotate(6deg);
+    }
+
+    .game-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .game-desc {
+      font-size: 0.95rem;
+      color: var(--text-sub);
+      line-height: 1.5;
+    }
+
+    .play-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: auto;
+      padding: 0.6rem 1.4rem;
+      border-radius: 30px;
+      background: linear-gradient(135deg, var(--accent-pink), #ff477e);
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.9rem;
+      box-shadow: 0 4px 15px rgba(255, 107, 139, 0.35);
+      transition: opacity 0.2s ease;
+    }
+
+    .game-card-link:hover .play-badge {
+      opacity: 0.95;
+    }
+
+    /* Bottom Nav */
+    .bottom-nav {
+      margin-top: 2.5rem;
+      z-index: 1;
+    }
+
+    .back-btn {
+      color: #fff;
+      text-decoration: none;
+      padding: 0.6rem 1.5rem;
+      border-radius: 30px;
+      background: rgba(255, 107, 139, 0.2);
+      border: 1px solid rgba(255, 107, 139, 0.5);
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background: rgba(255, 107, 139, 0.4);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <h1 class="title">Chapter One: Playtime</h1>
+    <p class="subtitle">Pick a challenge made just for you, Neemu ✨</p>
+  </header>
+
+  <!-- 2 Choice Boxes -->
+  <main class="games-grid">
+
+    <!-- Option 1: Catch My Heart -->
+    <a href="catch-heart.html" class="game-card-link">
+      <div class="game-card">
+        <div class="game-icon-box">💖</div>
+        <h2 class="game-title">Catch My Heart</h2>
+        <p class="game-desc">Test your reflexes! Move the basket to catch falling hearts and special birthday gifts before time runs out.</p>
+        <span class="play-badge">Play Game →</span>
+      </div>
+    </a>
+
+    <!-- Option 2: How Well Do You Know Me? -->
+    <a href="quiz.html" class="game-card-link">
+      <div class="game-card">
+        <div class="game-icon-box">💌</div>
+        <h2 class="game-title">How Well Do You Know Me?</h2>
+        <p class="game-desc">A cute interactive MCQ quiz exploring our favorite memories, late-night talks, and quirky moments.</p>
+        <span class="play-badge">Start Quiz →</span>
+      </div>
+    </a>
+
+  </main>
+
+  <!-- Navigation -->
+  <footer class="bottom-nav">
+    <a href="index.html" class="back-btn">← Back to Home</a>
+  </footer>
+
+</body>
+</html>

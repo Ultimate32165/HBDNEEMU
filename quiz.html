@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How Well Do You Know Us? | For My Neemu ❤️</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #1f0b14 0%, #381223 50%, #1a0812 100%);
+      --accent-pink: #ff6b8b;
+      --accent-gold: #ffd166;
+      --accent-green: #4ade80;
+      --card-bg: rgba(255, 255, 255, 0.08);
+      --card-border: rgba(255, 182, 193, 0.25);
+      --text-main: #fff0f5;
+      --text-sub: #f3c5d3;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg-gradient);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 2rem 1rem;
+      overflow-x: hidden;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .title {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(2.8rem, 6vw, 4.2rem);
+      margin-bottom: 0.2rem;
+      text-shadow: 0 0 15px rgba(255, 107, 139, 0.6);
+    }
+
+    .subtitle {
+      color: var(--text-sub);
+      font-size: 0.95rem;
+    }
+
+    /* Quiz Card Container */
+    .quiz-card {
+      width: 100%;
+      max-width: 520px;
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1.5px solid var(--card-border);
+      border-radius: 24px;
+      padding: 2rem;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+      position: relative;
+    }
+
+    /* Progress Bar */
+    .progress-bar-container {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent-pink), var(--accent-gold));
+      transition: width 0.4s ease;
+    }
+
+    .quiz-meta {
+      display: flex;
+      justify-content: space-between;
+      color: var(--text-sub);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      margin-bottom: 1rem;
+    }
+
+    .question-text {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      line-height: 1.4;
+      color: #fff;
+    }
+
+    /* Options */
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .option-btn {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
+      padding: 0.95rem 1.2rem;
+      border-radius: 14px;
+      color: var(--text-main);
+      font-size: 0.98rem;
+      font-weight: 500;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.25s ease;
+      font-family: inherit;
+    }
+
+    .option-btn:hover:not([disabled]) {
+      background: rgba(255, 107, 139, 0.2);
+      border-color: rgba(255, 107, 139, 0.5);
+      transform: translateX(4px);
+    }
+
+    .option-btn.correct {
+      background: rgba(74, 222, 128, 0.25) !important;
+      border-color: var(--accent-green) !important;
+      color: #fff;
+    }
+
+    .option-btn.wrong {
+      background: rgba(255, 107, 107, 0.25) !important;
+      border-color: #ff6b6b !important;
+      color: #fff;
+    }
+
+    .option-btn[disabled] {
+      cursor: default;
+    }
+
+    /* Feedback message box */
+    .feedback-box {
+      min-height: 28px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-align: center;
+      color: var(--accent-gold);
+      margin-bottom: 1rem;
+    }
+
+    /* Next Button */
+    .btn-next {
+      width: 100%;
+      background: linear-gradient(135deg, var(--accent-pink), #ff477e);
+      border: none;
+      color: #fff;
+      padding: 0.85rem;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 18px rgba(255, 107, 139, 0.4);
+      display: none;
+      transition: transform 0.2s ease;
+      font-family: inherit;
+    }
+
+    .btn-next:hover {
+      transform: scale(1.02);
+    }
+
+    /* Result Screen */
+    .result-screen {
+      display: none;
+      text-align: center;
+      padding: 1rem 0;
+    }
+
+    .result-score {
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: var(--accent-gold);
+      margin: 0.5rem 0;
+      text-shadow: 0 0 15px rgba(255, 209, 102, 0.4);
+    }
+
+    .result-message {
+      color: var(--text-sub);
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: 1.8rem;
+    }
+
+    /* Bottom Nav */
+    .bottom-nav {
+      margin-top: 1.5rem;
+    }
+
+    .back-btn {
+      color: #fff;
+      text-decoration: none;
+      padding: 0.6rem 1.5rem;
+      border-radius: 30px;
+      background: rgba(255, 107, 139, 0.2);
+      border: 1px solid rgba(255, 107, 139, 0.5);
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background: rgba(255, 107, 139, 0.4);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <h1 class="title">How Well Do You Know Me?</h1>
+    <p class="subtitle">A cute little test of our memories & quirks ✨</p>
+  </header>
+
+  <div class="quiz-card">
+    <div class="progress-bar-container">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <!-- Active Question Container -->
+    <div id="quizContent">
+      <div class="quiz-meta">
+        <span id="questionCount">Question 1 of 5</span>
+        <span id="currentScore">Score: 0</span>
+      </div>
+
+      <div class="question-text" id="questionText">Question text goes here</div>
+
+      <div class="options-grid" id="optionsGrid">
+        <!-- Buttons injected dynamically -->
+      </div>
+
+      <div class="feedback-box" id="feedbackBox"></div>
+
+      <button class="btn-next" id="nextBtn" onclick="handleNextQuestion()">Next Question →</button>
+    </div>
+
+    <!-- Result Summary Container -->
+    <div class="result-screen" id="resultScreen">
+      <h2 style="font-family:'Great Vibes', cursive; font-size: 3rem; color: #fff;">Quiz Completed!</h2>
+      <div class="result-score" id="finalScoreDisplay">5/5</div>
+      <p class="result-message" id="finalMessage">You know me better than anyone in this entire universe. Happy Birthday Neemu! ❤️</p>
+      <button class="btn-next" style="display:inline-block;" onclick="restartQuiz()">Try Again ↺</button>
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <a href="index.html" class="back-btn">← Back to Home</a>
+  </div>
+
+  <script>
+    // Customize your quiz questions and correct answers here!
+    const questions = [
+      {
+        question: "What is my absolute favorite thing about you?",
+        options: [
+          "Your pretty smile & laugh",
+          "How caring you are",
+          "Your cute habits",
+          "All of the above ❤️"
+        ],
+        correct: 3,
+        feedback: "Easy one! It's always all of the above 🥰"
+      },
+      {
+        question: "What was the first thing that made me fall for you?",
+        options: [
+          "Your eyes and voice",
+          "The way you talk to me",
+          "How sweet and kind you are",
+          "Everything from day one"
+        ],
+        correct: 3,
+        feedback: "I fell completely from the very start! ✨"
+      },
+      {
+        question: "What is our ideal late night activity?",
+        options: [
+          "Talking for hours until we sleep",
+          "Listening to our playlist",
+          "Sending each other random reels",
+          "All of these together"
+        ],
+        correct: 3,
+        feedback: "Any late night with you is my favorite night 🌙"
+      },
+      {
+        question: "If I could give you any gift in the world right now, what would it be?",
+        options: [
+          "A lifetime of hugs & happiness",
+          "All your favorite food & treats",
+          "A trip to your dream destination",
+          "Endless love and peace"
+        ],
+        correct: 0,
+        feedback: "My whole heart and hugs forever! 💖"
+      },
+      {
+        question: "Who loves you the most in the entire world?",
+        options: [
+          "Me (1000%)",
+          "Me (Infinity%)",
+          "Still Me",
+          "Definitely Me ❤️"
+        ],
+        correct: 1,
+        feedback: "Correct! To infinity and beyond! 🚀💘"
+      }
+    ];
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+
+    const quizContent = document.getElementById('quizContent');
+    const resultScreen = document.getElementById('resultScreen');
+    const questionCount = document.getElementById('questionCount');
+    const currentScore = document.getElementById('currentScore');
+    const questionText = document.getElementById('questionText');
+    const optionsGrid = document.getElementById('optionsGrid');
+    const feedbackBox = document.getElementById('feedbackBox');
+    const nextBtn = document.getElementById('nextBtn');
+    const progressFill = document.getElementById('progressFill');
+    const finalScoreDisplay = document.getElementById('finalScoreDisplay');
+    const finalMessage = document.getElementById('finalMessage');
+
+    function loadQuestion() {
+      const q = questions[currentQuestionIndex];
+      questionCount.textContent = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+      currentScore.textContent = `Score: ${score}`;
+      questionText.textContent = q.question;
+      feedbackBox.textContent = '';
+      nextBtn.style.display = 'none';
+
+      // Update progress bar
+      const progress = ((currentQuestionIndex) / questions.length) * 100;
+      progressFill.style.width = `${progress}%`;
+
+      optionsGrid.innerHTML = '';
+      q.options.forEach((option, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.innerHTML = `<span>${option}</span>`;
+        btn.onclick = () => selectOption(index);
+        optionsGrid.appendChild(btn);
+      });
+    }
+
+    function selectOption(selectedIndex) {
+      const q = questions[currentQuestionIndex];
+      const buttons = optionsGrid.querySelectorAll('.option-btn');
+
+      buttons.forEach((btn, index) => {
+        btn.disabled = true;
+        if (index === q.correct) {
+          btn.classList.add('correct');
+          btn.innerHTML += ' <span>✓</span>';
+        } else if (index === selectedIndex) {
+          btn.classList.add('wrong');
+          btn.innerHTML += ' <span>✗</span>';
+        }
+      });
+
+      if (selectedIndex === q.correct) {
+        score++;
+        feedbackBox.textContent = q.feedback || "Spot on! ❤️";
+      } else {
+        feedbackBox.textContent = "Close one! But you're still my favorite ❤️";
+      }
+
+      currentScore.textContent = `Score: ${score}`;
+      nextBtn.style.display = 'block';
+    }
+
+    function handleNextQuestion() {
+      currentQuestionIndex++;
+      if (currentQuestionIndex < questions.length) {
+        loadQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      progressFill.style.width = '100%';
+      quizContent.style.display = 'none';
+      resultScreen.style.display = 'block';
+
+      finalScoreDisplay.textContent = `${score}/${questions.length}`;
+
+      if (score === questions.length) {
+        finalMessage.textContent = "100% Match! You know me better than anyone in the whole world. Happy Birthday, my love! ❤️🎉";
+      } else if (score >= questions.length - 2) {
+        finalMessage.textContent = "So close to perfect! You know my heart inside out. Love you so much, Neemu! 💕";
+      } else {
+        finalMessage.textContent = "No matter the score, you own 100% of my heart every day! Happy Birthday Neemu! 💖";
+      }
+    }
+
+    function restartQuiz() {
+      currentQuestionIndex = 0;
+      score = 0;
+      quizContent.style.display = 'block';
+      resultScreen.style.display = 'none';
+      loadQuestion();
+    }
+
+    // Initial Start
+    loadQuestion();
+  </script>
+</body>
+</html>
