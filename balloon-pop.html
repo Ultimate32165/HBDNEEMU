@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pop The Balloons | For My Neemu ❤️</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #1f0b14 0%, #381223 50%, #1a0812 100%);
+      --accent-pink: #ff6b8b;
+      --accent-gold: #ffd166;
+      --card-border: rgba(255, 182, 193, 0.25);
+      --text-main: #fff0f5;
+      --text-sub: #f3c5d3;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg-gradient);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 1rem 3rem;
+      overflow: hidden;
+      touch-action: manipulation;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 0.5rem;
+      z-index: 2;
+    }
+
+    .title {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(2.8rem, 6vw, 4rem);
+      margin-bottom: 0.2rem;
+      text-shadow: 0 0 15px rgba(255, 107, 139, 0.6);
+      color: #fff;
+    }
+
+    .subtitle {
+      color: var(--text-sub);
+      font-size: 0.95rem;
+    }
+
+    .game-arena {
+      position: relative;
+      width: 100%;
+      max-width: 440px;
+      height: 500px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1.5px solid var(--card-border);
+      border-radius: 24px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+
+    .stats-bar {
+      position: absolute;
+      top: 15px;
+      left: 20px;
+      right: 20px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+      z-index: 5;
+    }
+
+    /* Floating Balloons */
+    .pop-balloon {
+      position: absolute;
+      width: 55px;
+      height: 72px;
+      border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      box-shadow: inset -5px -5px 12px rgba(0,0,0,0.3), 0 8px 20px rgba(0,0,0,0.25);
+      transition: transform 0.1s;
+    }
+
+    .pop-balloon::after {
+      content: '';
+      position: absolute;
+      bottom: -15px;
+      width: 1px;
+      height: 15px;
+      background: rgba(255, 255, 255, 0.4);
+    }
+
+    .pop-balloon:active {
+      transform: scale(1.3);
+    }
+
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(26, 8, 18, 0.92);
+      backdrop-filter: blur(8px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+      z-index: 10;
+    }
+
+    .overlay.hidden {
+      display: none !important;
+    }
+
+    .overlay h2 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 3rem;
+      color: var(--accent-pink);
+      margin-bottom: 0.5rem;
+    }
+
+    .btn-main {
+      background: linear-gradient(135deg, var(--accent-pink), #ff477e);
+      border: none;
+      color: #fff;
+      padding: 0.75rem 2rem;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 18px rgba(255, 107, 139, 0.45);
+      transition: transform 0.2s ease;
+      font-family: inherit;
+    }
+
+    .btn-main:hover {
+      transform: scale(1.05);
+    }
+
+    .bottom-nav {
+      display: flex;
+      gap: 1rem;
+      z-index: 2;
+    }
+
+    .back-btn {
+      color: #fff;
+      text-decoration: none;
+      padding: 0.6rem 1.4rem;
+      border-radius: 30px;
+      background: rgba(255, 107, 139, 0.2);
+      border: 1px solid rgba(255, 107, 139, 0.5);
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background: rgba(255, 107, 139, 0.4);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <h1 class="title">Pop The Balloons</h1>
+    <p class="subtitle">Tap every floating balloon before time runs out! 🎈</p>
+  </header>
+
+  <main class="game-arena" id="gameArena">
+    <div class="stats-bar">
+      <span id="scoreText">Popped: 0</span>
+      <span id="timerText">Time: 25s</span>
+    </div>
+
+    <div class="overlay" id="startScreen">
+      <h2>Ready, Neemu?</h2>
+      <p style="color: var(--text-sub); margin-bottom: 1.5rem; font-size: 0.95rem;">
+        Pop as many colorful birthday balloons as you can in 25 seconds! ✨
+      </p>
+      <button class="btn-main" onclick="startBalloonGame()">Start Popping 🎈</button>
+    </div>
+
+    <div class="overlay hidden" id="endScreen">
+      <h2>Birthday Champion! 💖</h2>
+      <p style="color: var(--text-sub); margin-bottom: 1.5rem; font-size: 0.95rem;">
+        You popped <strong id="finalScore" style="color:var(--accent-gold)">0</strong> balloons! May your year be as full of color and joy as this game! ❤️
+      </p>
+      <button class="btn-main" onclick="startBalloonGame()">Play Again ↺</button>
+    </div>
+  </main>
+
+  <footer class="bottom-nav">
+    <a href="page1.html" class="back-btn spa-link">← Chapter Menu</a>
+    <a href="index.html" class="back-btn spa-link">Home</a>
+  </footer>
+
+  <script>
+    const arena = document.getElementById('gameArena');
+    const scoreText = document.getElementById('scoreText');
+    const timerText = document.getElementById('timerText');
+    const startScreen = document.getElementById('startScreen');
+    const endScreen = document.getElementById('endScreen');
+    const finalScore = document.getElementById('finalScore');
+
+    let score = 0;
+    let timeLeft = 25;
+    let gameInterval = null;
+    let spawnInterval = null;
+    let activeBalloons = [];
+
+    const colors = [
+      ['#ff6b8b', '#c9184a'],
+      ['#ffd166', '#f39c12'],
+      ['#a29bfe', '#6c5ce7'],
+      ['#74b9ff', '#0984e3'],
+      ['#ff9ff3', '#f368e0']
+    ];
+
+    function startBalloonGame() {
+      score = 0;
+      timeLeft = 25;
+      scoreText.textContent = `Popped: 0`;
+      timerText.textContent = `Time: 25s`;
+
+      startScreen.classList.add('hidden');
+      endScreen.classList.add('hidden');
+
+      // Clear existing
+      activeBalloons.forEach(b => b.remove());
+      activeBalloons = [];
+
+      if (gameInterval) clearInterval(gameInterval);
+      if (spawnInterval) clearInterval(spawnInterval);
+
+      spawnInterval = setInterval(spawnBalloon, 450);
+
+      gameInterval = setInterval(() => {
+        timeLeft--;
+        timerText.textContent = `Time: ${timeLeft}s`;
+        if (timeLeft <= 0) endGame();
+      }, 1000);
+    }
+
+    function spawnBalloon() {
+      const b = document.createElement('div');
+      b.className = 'pop-balloon';
+
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      b.style.background = `radial-gradient(circle at 65% 35%, ${color[0]}, ${color[1]})`;
+      b.style.left = `${Math.random() * (arena.clientWidth - 70) + 10}px`;
+      b.style.bottom = `-80px`;
+
+      let bottomPos = -80;
+      const speed = Math.random() * 2 + 2.5;
+
+      const moveTimer = setInterval(() => {
+        bottomPos += speed;
+        b.style.bottom = `${bottomPos}px`;
+        if (bottomPos > arena.clientHeight + 80) {
+          clearInterval(moveTimer);
+          b.remove();
+        }
+      }, 20);
+
+      b.onpointerdown = () => {
+        score++;
+        scoreText.textContent = `Popped: ${score}`;
+        clearInterval(moveTimer);
+        b.remove();
+      };
+
+      arena.appendChild(b);
+      activeBalloons.push(b);
+    }
+
+    function endGame() {
+      clearInterval(gameInterval);
+      clearInterval(spawnInterval);
+      activeBalloons.forEach(b => b.remove());
+      activeBalloons = [];
+
+      finalScore.textContent = score;
+      endScreen.classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>

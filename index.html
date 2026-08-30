@@ -245,9 +245,203 @@
       color: var(--text-sub);
       opacity: 0.7;
     }
+
+/* PIN Lock Overlay */
+#pin-overlay {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, #2e0d1d 0%, #14050d 100%);
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+#pin-overlay.unlocked {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.pin-card {
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1.5px solid rgba(255, 182, 193, 0.3);
+  border-radius: 32px;
+  padding: 2.5rem 2rem;
+  max-width: 380px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(255, 107, 139, 0.2);
+}
+
+.lock-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  animation: pulseLock 2s infinite ease-in-out;
+}
+
+@keyframes pulseLock {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.pin-title {
+  font-family: 'Great Vibes', cursive;
+  font-size: 2.8rem;
+  color: #fff;
+  text-shadow: 0 0 15px rgba(255, 107, 139, 0.7);
+  margin-bottom: 0.2rem;
+}
+
+.pin-subtitle {
+  font-size: 0.88rem;
+  color: #f3c5d3;
+  margin-bottom: 1.8rem;
+  letter-spacing: 0.5px;
+}
+
+/* 4 PIN Dots */
+.pin-dots {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 1rem;
+}
+
+.pin-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 182, 193, 0.5);
+  background: rgba(255, 255, 255, 0.05);
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.pin-dot.filled {
+  background: #ff6b8b;
+  border-color: #ff6b8b;
+  box-shadow: 0 0 15px #ff6b8b;
+  transform: scale(1.2);
+}
+
+.pin-error-msg {
+  color: #ff6b6b;
+  font-size: 0.85rem;
+  font-weight: 600;
+  min-height: 20px;
+  margin-bottom: 1rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.pin-error-msg.show {
+  opacity: 1;
+}
+
+/* Keypad Grid */
+.keypad-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  max-width: 280px;
+  margin: 0 auto;
+}
+
+.key-btn {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 182, 193, 0.25);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: 600;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.key-btn:hover {
+  background: rgba(255, 107, 139, 0.35);
+  border-color: #ff6b8b;
+  transform: scale(1.06);
+}
+
+.key-btn:active {
+  transform: scale(0.92);
+  background: #ff6b8b;
+}
+
+.key-btn.key-action {
+  font-size: 1.1rem;
+  color: #ffd166;
+  background: rgba(255, 209, 102, 0.08);
+  border-color: rgba(255, 209, 102, 0.25);
+}
+
+/* Shake Animation on Wrong PIN */
+.shake {
+  animation: shakeAnim 0.4s ease;
+}
+
+@keyframes shakeAnim {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-12px); }
+  40%, 80% { transform: translateX(12px); }
+}
+
+
+
   </style>
 </head>
 <body>
+
+<!-- Romantic ATM-Style Lock Screen Overlay -->
+<div id="pin-overlay">
+  <div class="pin-card">
+    <div class="lock-icon">🔒</div>
+    <h2 class="pin-title">For Neemu's Eyes Only</h2>
+    <p class="pin-subtitle">Enter our special 4-digit code to unlock ✨</p>
+
+    <!-- 4 PIN Dots -->
+    <div class="pin-dots" id="pinDots">
+      <div class="pin-dot"></div>
+      <div class="pin-dot"></div>
+      <div class="pin-dot"></div>
+      <div class="pin-dot"></div>
+    </div>
+
+    <div class="pin-error-msg" id="pinError">Incorrect PIN, try again ❤️</div>
+
+    <!-- On-screen Clickable Keypad -->
+    <div class="keypad-grid">
+      <button class="key-btn" onclick="pressKey('1')">1</button>
+      <button class="key-btn" onclick="pressKey('2')">2</button>
+      <button class="key-btn" onclick="pressKey('3')">3</button>
+      <button class="key-btn" onclick="pressKey('4')">4</button>
+      <button class="key-btn" onclick="pressKey('5')">5</button>
+      <button class="key-btn" onclick="pressKey('6')">6</button>
+      <button class="key-btn" onclick="pressKey('7')">7</button>
+      <button class="key-btn" onclick="pressKey('8')">8</button>
+      <button class="key-btn" onclick="pressKey('9')">9</button>
+      <button class="key-btn key-action" onclick="clearPin()">C</button>
+      <button class="key-btn" onclick="pressKey('0')">0</button>
+      <button class="key-btn key-action" onclick="deleteLastKey()">⌫</button>
+    </div>
+  </div>
+</div>
+
+
 
   <!-- Hidden HTML5 Audio Element (Plays seamlessly) -->
   <audio id="bg-audio" loop preload="auto">
@@ -546,5 +740,78 @@
     }
     animate();
   </script>
+<script>
+  const CORRECT_PIN = "0409";
+  let enteredPin = "";
+
+  const pinOverlay = document.getElementById('pin-overlay');
+  const pinDots = document.querySelectorAll('.pin-dot');
+  const pinError = document.getElementById('pinError');
+  const pinCard = document.querySelector('.pin-card');
+
+  function updateDots() {
+    pinDots.forEach((dot, index) => {
+      if (index < enteredPin.length) {
+        dot.classList.add('filled');
+      } else {
+        dot.classList.remove('filled');
+      }
+    });
+  }
+
+  function pressKey(num) {
+    if (enteredPin.length >= 4) return;
+    
+    enteredPin += num;
+    updateDots();
+    pinError.classList.remove('show');
+
+    if (enteredPin.length === 4) {
+      setTimeout(verifyPin, 150);
+    }
+  }
+
+  function deleteLastKey() {
+    if (enteredPin.length > 0) {
+      enteredPin = enteredPin.slice(0, -1);
+      updateDots();
+      pinError.classList.remove('show');
+    }
+  }
+
+  function clearPin() {
+    enteredPin = "";
+    updateDots();
+    pinError.classList.remove('show');
+  }
+
+  function verifyPin() {
+    if (enteredPin === CORRECT_PIN) {
+      // Success unlock
+      pinOverlay.classList.add('unlocked');
+
+      // Trigger the background music to play on unlock
+      const bgAudio = document.getElementById('bg-audio');
+      if (bgAudio) {
+        bgAudio.play().then(() => {
+          const playBtn = document.getElementById('musicToggleBtn');
+          const statusText = document.getElementById('music-status');
+          if (playBtn) playBtn.textContent = '❚❚';
+          if (statusText) statusText.textContent = 'Playing ❤️';
+        }).catch(() => {});
+      }
+    } else {
+      // Error: Shake & Clear
+      pinCard.classList.add('shake');
+      pinError.classList.add('show');
+      setTimeout(() => {
+        pinCard.classList.remove('shake');
+        clearPin();
+      }, 450);
+    }
+  }
+</script>
+
+
 </body>
 </html>

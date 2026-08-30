@@ -38,12 +38,11 @@
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
-      padding: 3rem 1.5rem;
+      padding: 2.5rem 1rem 3.5rem;
       overflow-x: hidden;
       position: relative;
     }
 
-    /* Header */
     .header {
       text-align: center;
       margin-bottom: 2rem;
@@ -55,6 +54,7 @@
       font-size: clamp(3.2rem, 7vw, 4.8rem);
       margin-bottom: 0.3rem;
       text-shadow: 0 0 15px rgba(255, 107, 139, 0.6);
+      color: #fff;
     }
 
     .subtitle {
@@ -63,16 +63,15 @@
       letter-spacing: 1px;
     }
 
-    /* Selection Cards Container */
     .games-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 340px));
-      gap: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 320px));
+      gap: 1.8rem;
       width: 100%;
-      max-width: 760px;
+      max-width: 1100px;
       justify-content: center;
       z-index: 1;
-      margin: auto 0;
+      margin: 1rem 0 2.5rem;
     }
 
     .game-card-link {
@@ -88,7 +87,7 @@
       -webkit-backdrop-filter: blur(16px);
       border: 1.5px solid var(--card-border);
       border-radius: 24px;
-      padding: 2.2rem 1.8rem;
+      padding: 2rem 1.6rem;
       text-align: center;
       box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
       transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
@@ -97,7 +96,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 1.2rem;
+      gap: 1.1rem;
       height: 100%;
     }
 
@@ -108,15 +107,15 @@
     }
 
     .game-icon-box {
-      width: 80px;
-      height: 80px;
+      width: 76px;
+      height: 76px;
       border-radius: 50%;
       background: rgba(255, 107, 139, 0.15);
       border: 1px solid rgba(255, 107, 139, 0.4);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 2.5rem;
+      font-size: 2.3rem;
       box-shadow: 0 0 20px rgba(255, 107, 139, 0.25);
       transition: transform 0.3s ease;
     }
@@ -126,13 +125,13 @@
     }
 
     .game-title {
-      font-size: 1.4rem;
+      font-size: 1.35rem;
       font-weight: 700;
       color: #fff;
     }
 
     .game-desc {
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       color: var(--text-sub);
       line-height: 1.5;
     }
@@ -147,7 +146,7 @@
       background: linear-gradient(135deg, var(--accent-pink), #ff477e);
       color: #fff;
       font-weight: 600;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       box-shadow: 0 4px 15px rgba(255, 107, 139, 0.35);
       transition: opacity 0.2s ease;
     }
@@ -156,9 +155,7 @@
       opacity: 0.95;
     }
 
-    /* Bottom Nav */
     .bottom-nav {
-      margin-top: 2.5rem;
       z-index: 1;
     }
 
@@ -181,27 +178,24 @@
 </head>
 <body>
 
-  <!-- Header -->
   <header class="header">
     <h1 class="title">Chapter One: Playtime</h1>
     <p class="subtitle">Pick a challenge made just for you, Neemu ✨</p>
   </header>
 
-  <!-- 2 Choice Boxes -->
   <main class="games-grid">
-
     <!-- Option 1: Catch My Heart -->
-    <a href="catch-heart.html" class="game-card-link">
+    <a href="catch-heart.html" class="game-card-link spa-link">
       <div class="game-card">
         <div class="game-icon-box">💖</div>
         <h2 class="game-title">Catch My Heart</h2>
-        <p class="game-desc">Test your reflexes! Move the basket to catch falling hearts and special birthday gifts before time runs out.</p>
+        <p class="game-desc">Test your reflexes! Move the basket to catch falling hearts and special gifts before time runs out.</p>
         <span class="play-badge">Play Game →</span>
       </div>
     </a>
 
     <!-- Option 2: How Well Do You Know Me? -->
-    <a href="quiz.html" class="game-card-link">
+    <a href="quiz.html" class="game-card-link spa-link">
       <div class="game-card">
         <div class="game-icon-box">💌</div>
         <h2 class="game-title">How Well Do You Know Me?</h2>
@@ -210,11 +204,29 @@
       </div>
     </a>
 
+    <!-- Option 3: Romantic Scramble -->
+    <a href="word-search.html" class="game-card-link spa-link">
+      <div class="game-card">
+        <div class="game-icon-box">🧩</div>
+        <h2 class="game-title">Love Scramble</h2>
+        <p class="game-desc">Unscramble the secret words from our story and unlock sweet love notes as you solve them.</p>
+        <span class="play-badge">Solve Puzzle →</span>
+      </div>
+    </a>
+
+    <!-- Option 4: Pop The Balloons -->
+    <a href="balloon-pop.html" class="game-card-link spa-link">
+      <div class="game-card">
+        <div class="game-icon-box">🎈</div>
+        <h2 class="game-title">Pop The Balloons</h2>
+        <p class="game-desc">A fun 25-second rush! Tap and pop floating birthday balloons as fast as you can.</p>
+        <span class="play-badge">Start Popping →</span>
+      </div>
+    </a>
   </main>
 
-  <!-- Navigation -->
   <footer class="bottom-nav">
-    <a href="index.html" class="back-btn">← Back to Home</a>
+    <a href="index.html" class="back-btn spa-link">← Back to Home</a>
   </footer>
 
 </body>

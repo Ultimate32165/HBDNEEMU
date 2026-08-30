@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Romantic Scramble | For My Neemu ❤️</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #1f0b14 0%, #381223 50%, #1a0812 100%);
+      --accent-pink: #ff6b8b;
+      --accent-gold: #ffd166;
+      --card-border: rgba(255, 182, 193, 0.25);
+      --text-main: #fff0f5;
+      --text-sub: #f3c5d3;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg-gradient);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 2rem 1rem 3.5rem;
+      overflow-x: hidden;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .title {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(2.8rem, 6vw, 4rem);
+      color: #fff;
+      text-shadow: 0 0 15px rgba(255, 107, 139, 0.6);
+      margin-bottom: 0.2rem;
+    }
+
+    .subtitle {
+      color: var(--text-sub);
+      font-size: 0.95rem;
+    }
+
+    .game-card {
+      width: 100%;
+      max-width: 480px;
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1.5px solid var(--card-border);
+      border-radius: 28px;
+      padding: 2.2rem 1.8rem;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+    }
+
+    .level-badge {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--accent-gold);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+    }
+
+    .clue-box {
+      font-size: 1.1rem;
+      color: #fff;
+      margin-bottom: 1.8rem;
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1.4;
+    }
+
+    .letters-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 1.8rem;
+      min-height: 52px;
+    }
+
+    .letter-btn {
+      width: 46px;
+      height: 48px;
+      border-radius: 12px;
+      border: 1.5px solid rgba(255, 182, 193, 0.4);
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      font-size: 1.25rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .letter-btn:hover {
+      background: rgba(255, 107, 139, 0.35);
+      border-color: var(--accent-pink);
+      transform: translateY(-2px);
+    }
+
+    .letter-btn.selected {
+      background: #ff6b8b;
+      border-color: #ff6b8b;
+      box-shadow: 0 0 12px #ff6b8b;
+    }
+
+    .letter-btn.disabled {
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    .answer-slot-container {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 2rem;
+      min-height: 48px;
+    }
+
+    .slot {
+      width: 42px;
+      height: 46px;
+      border-bottom: 3px solid rgba(255, 182, 193, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--accent-gold);
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 6px 6px 0 0;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn-action {
+      padding: 0.65rem 1.4rem;
+      border-radius: 30px;
+      border: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      font-family: inherit;
+    }
+
+    .btn-submit {
+      background: linear-gradient(135deg, var(--accent-pink), #ff477e);
+      color: #fff;
+      box-shadow: 0 4px 15px rgba(255, 107, 139, 0.4);
+    }
+
+    .btn-submit:hover { transform: scale(1.05); }
+
+    .btn-clear {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+    }
+
+    .win-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(26, 8, 18, 0.94);
+      backdrop-filter: blur(10px);
+      border-radius: 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s ease;
+      z-index: 10;
+    }
+
+    .win-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .win-overlay h2 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 3.2rem;
+      color: var(--accent-pink);
+      margin-bottom: 0.5rem;
+    }
+
+    .bottom-nav {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .back-btn {
+      color: #fff;
+      text-decoration: none;
+      padding: 0.6rem 1.4rem;
+      border-radius: 30px;
+      background: rgba(255, 107, 139, 0.2);
+      border: 1px solid rgba(255, 107, 139, 0.5);
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background: rgba(255, 107, 139, 0.4);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <h1 class="title">Love Unscramble</h1>
+    <p class="subtitle">Unscramble words that define our sweetest memories ✨</p>
+  </header>
+
+  <main class="game-card">
+    <span class="level-badge" id="levelIndicator">Word 1 of 7</span>
+    <div class="clue-box" id="clueText">Loading clue...</div>
+
+    <div class="answer-slot-container" id="slotsContainer"></div>
+    <div class="letters-container" id="lettersContainer"></div>
+
+    <div class="btn-row">
+      <button class="btn-action btn-clear" onclick="clearCurrentAnswer()">Undo ⌫</button>
+      <button class="btn-action btn-submit" onclick="checkAnswer()">Submit Word 💖</button>
+    </div>
+
+    <!-- Win Screen Modal -->
+    <div class="win-overlay" id="winOverlay">
+      <h2>You Solved Them All!</h2>
+      <p style="color: var(--text-sub); margin-bottom: 1.5rem; font-size: 0.95rem;">
+        Every single word reminds me of the beautiful love we share every day, Neemu. ❤️
+      </p>
+      <button class="btn-action btn-submit" onclick="restartScramble()">Play Again ↺</button>
+    </div>
+  </main>
+
+  <footer class="bottom-nav">
+    <a href="page1.html" class="back-btn spa-link">← Chapter Menu</a>
+    <a href="index.html" class="back-btn spa-link">Home</a>
+  </footer>
+
+  <script>
+    const wordList = [
+      { word: "NEEMU", clue: "The prettiest girl who owns my entire heart 👑" },
+      { word: "FEBRUARY", clue: "The month we started talking every single day 📅" },
+      { word: "ALWAYS", clue: "How long I want you beside me ✨" },
+      { word: "SMILE", clue: "The sweet thing you do that instantly fixes my mood 😊" },
+      { word: "FOREVER", clue: "The promise I made to never let go of your hand 🌹" },
+      { word: "HUGS", clue: "The warmest medicine for all my stress 🥰" },
+      { word: "PANDA", clue: "Your soul animal" },
+    ];
+
+    let currentIdx = 0;
+    let selectedLetters = [];
+
+    function loadLevel() {
+      const current = wordList[currentIdx];
+      document.getElementById('levelIndicator').textContent = `Word ${currentIdx + 1} of ${wordList.length}`;
+      document.getElementById('clueText').textContent = `“${current.clue}”`;
+
+      selectedLetters = [];
+      renderSlots(current.word.length);
+
+      // Scramble letters
+      const letters = current.word.split('').sort(() => Math.random() - 0.5);
+      renderLetterButtons(letters);
+    }
+
+    function renderSlots(len) {
+      const container = document.getElementById('slotsContainer');
+      container.innerHTML = '';
+      for (let i = 0; i < len; i++) {
+        const slot = document.createElement('div');
+        slot.className = 'slot';
+        slot.id = `slot-${i}`;
+        container.appendChild(slot);
+      }
+    }
+
+    function renderLetterButtons(letters) {
+      const container = document.getElementById('lettersContainer');
+      container.innerHTML = '';
+      letters.forEach((char, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'letter-btn';
+        btn.id = `btn-char-${i}`;
+        btn.textContent = char;
+        btn.onclick = () => pickLetter(char, i);
+        container.appendChild(btn);
+      });
+    }
+
+    function pickLetter(char, btnIdx) {
+      const targetLen = wordList[currentIdx].word.length;
+      if (selectedLetters.length >= targetLen) return;
+
+      const slotIdx = selectedLetters.length;
+      selectedLetters.push({ char, btnIdx });
+
+      document.getElementById(`slot-${slotIdx}`).textContent = char;
+      document.getElementById(`btn-char-${btnIdx}`).classList.add('disabled');
+    }
+
+    function clearCurrentAnswer() {
+      if (selectedLetters.length === 0) return;
+      const last = selectedLetters.pop();
+      document.getElementById(`slot-${selectedLetters.length}`).textContent = '';
+      document.getElementById(`btn-char-${last.btnIdx}`).classList.remove('disabled');
+    }
+
+    function checkAnswer() {
+      const targetWord = wordList[currentIdx].word;
+      const userWord = selectedLetters.map(item => item.char).join('');
+
+      if (userWord === targetWord) {
+        currentIdx++;
+        if (currentIdx < wordList.length) {
+          loadLevel();
+        } else {
+          document.getElementById('winOverlay').classList.add('active');
+        }
+      } else {
+        alert("Almost there, my love! Try again ❤️");
+      }
+    }
+
+    function restartScramble() {
+      currentIdx = 0;
+      document.getElementById('winOverlay').classList.remove('active');
+      loadLevel();
+    }
+
+    loadLevel();
+  </script>
+</body>
+</html>

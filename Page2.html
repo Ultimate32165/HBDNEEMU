@@ -60,11 +60,12 @@
       opacity: 0.9;
     }
 
+    /* Deck container scaled for square cards */
     .deck-container {
       position: relative;
       width: 320px;
-      height: 440px;
-      margin: 2rem 0;
+      height: 390px;
+      margin: 1.5rem 0 2rem;
       perspective: 1000px;
       display: flex;
       align-items: center;
@@ -78,7 +79,7 @@
       height: 100%;
       background: #ffffff;
       border-radius: 20px;
-      padding: 14px 14px 20px;
+      padding: 14px 14px 16px;
       box-shadow: 0 15px 35px rgba(0, 0, 0, 0.45);
       cursor: pointer;
       display: flex;
@@ -93,9 +94,10 @@
       box-shadow: 0 20px 40px rgba(255, 107, 139, 0.35);
     }
 
+    /* Exactly Square Photo Box (1:1 Ratio) */
     .photo-box {
       width: 100%;
-      height: 320px;
+      aspect-ratio: 1 / 1;
       border-radius: 14px;
       overflow: hidden;
       background: #2b111e;
@@ -109,30 +111,16 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: center;
       display: block;
-    }
-
-    .placeholder {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      color: rgba(255, 255, 255, 0.4);
-      font-size: 0.9rem;
-    }
-
-    .placeholder svg {
-      width: 44px;
-      height: 44px;
-      fill: currentColor;
     }
 
     .caption {
       text-align: center;
-      font-size: 0.98rem;
+      font-size: 0.95rem;
       font-weight: 600;
       color: #331522;
-      margin-top: 10px;
+      margin-top: 8px;
       font-family: 'Plus Jakarta Sans', sans-serif;
     }
 
@@ -233,11 +221,7 @@
     <!-- Card 1 (Bottom) -->
     <div class="photo-card" data-index="1">
       <div class="photo-box">
-        <img src="" alt="Picture 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-        <div class="placeholder">
-          <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-          <span>Add Photo 1</span>
-        </div>
+        <img src="pic1.jpg" alt="Picture 1" />
       </div>
       <div class="caption">The prettiest face in the world ✨</div>
     </div>
@@ -245,11 +229,7 @@
     <!-- Card 2 -->
     <div class="photo-card" data-index="2">
       <div class="photo-box">
-        <img src="" alt="Picture 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-        <div class="placeholder">
-          <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-          <span>Add Photo 2</span>
-        </div>
+        <img src="pic2.jpg" alt="Picture 2" />
       </div>
       <div class="caption">That sweet smile I fall for every day ❤️</div>
     </div>
@@ -257,11 +237,7 @@
     <!-- Card 3 -->
     <div class="photo-card" data-index="3">
       <div class="photo-box">
-        <img src="" alt="Picture 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-        <div class="placeholder">
-          <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-          <span>Add Photo 3</span>
-        </div>
+        <img src="pic3.jpg" alt="Picture 3" />
       </div>
       <div class="caption">Effortlessly gorgeous 🌸</div>
     </div>
@@ -269,11 +245,7 @@
     <!-- Card 4 -->
     <div class="photo-card" data-index="4">
       <div class="photo-box">
-        <img src="" alt="Picture 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-        <div class="placeholder">
-          <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-          <span>Add Photo 4</span>
-        </div>
+        <img src="pic4.jpg" alt="Picture 4" />
       </div>
       <div class="caption">Being completely cute and silly 🥰</div>
     </div>
@@ -281,11 +253,7 @@
     <!-- Card 5 -->
     <div class="photo-card" data-index="5">
       <div class="photo-box">
-        <img src="" alt="Picture 5" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-        <div class="placeholder">
-          <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-          <span>Add Photo 5</span>
-        </div>
+        <img src="pic5.jpg" alt="Picture 5" />
       </div>
       <div class="caption">My favorite picture of my favorite girl 💖</div>
     </div>
@@ -293,11 +261,7 @@
     <!-- Card 6 -->
     <div class="photo-card" data-index="6">
       <div class="photo-box">
-        <img src="" alt="Picture 6" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-        <div class="placeholder">
-          <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-          <span>Add Photo 6</span>
-        </div>
+        <img src="pic6.jpg" alt="Picture 6" />
       </div>
       <div class="caption">Those eyes that have my whole heart 💫</div>
     </div>
@@ -305,11 +269,7 @@
     <!-- Card 7 -->
     <div class="photo-card" data-index="7">
       <div class="photo-box">
-        <img src="" alt="Picture 7" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-        <div class="placeholder">
-          <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-          <span>Add Photo 7</span>
-        </div>
+        <img src="pic7.jpg" alt="Picture 7" />
       </div>
       <div class="caption">How are you this pretty? 🥺💘</div>
     </div>
@@ -317,11 +277,7 @@
     <!-- Card 8 -->
     <div class="photo-card" data-index="8">
       <div class="photo-box">
-        <img src="" alt="Picture 8" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-        <div class="placeholder">
-          <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-          <span>Add Photo 8</span>
-        </div>
+        <img src="pic8.jpg" alt="Picture 8" />
       </div>
       <div class="caption">A pure angel ✨</div>
     </div>
@@ -329,11 +285,7 @@
     <!-- Card 9 -->
     <div class="photo-card" data-index="9">
       <div class="photo-box">
-        <img src="" alt="Picture 9" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-        <div class="placeholder">
-          <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-          <span>Add Photo 9</span>
-        </div>
+        <img src="pic9.jpg" alt="Picture 9" />
       </div>
       <div class="caption">My screen wallpaper forever 📱❤️</div>
     </div>
@@ -341,11 +293,7 @@
     <!-- Card 10 (Top Initial Card) -->
     <div class="photo-card" data-index="10">
       <div class="photo-box">
-        <img src="" alt="Picture 10" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-        <div class="placeholder">
-          <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-          <span>Add Photo 10</span>
-        </div>
+        <img src="pic10.jpg" alt="Picture 10" />
       </div>
       <div class="caption">Breathtaking as always, birthday girl! 💖🎂</div>
     </div>
@@ -365,7 +313,6 @@
     <span class="card-counter" id="counter">10 pictures left</span>
   </div>
 
-  <!-- Deck Management Script -->
   <script>
     const deck = document.getElementById('deck');
     const cards = Array.from(deck.querySelectorAll('.photo-card'));

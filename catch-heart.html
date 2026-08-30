@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chapter One | Catch My Heart ❤️</title>
+  <title>Catch My Heart | For My Neemu ❤️</title>
 
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
@@ -14,7 +15,6 @@
       --bg-gradient: linear-gradient(135deg, #1f0b14 0%, #381223 50%, #1a0812 100%);
       --accent-pink: #ff6b8b;
       --accent-gold: #ffd166;
-      --card-bg: rgba(255, 255, 255, 0.08);
       --card-border: rgba(255, 182, 193, 0.25);
       --text-main: #fff0f5;
       --text-sub: #f3c5d3;
@@ -36,14 +36,23 @@
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
-      padding: 1.5rem 1rem;
+      padding: 1.5rem 1rem 3rem;
       overflow-x: hidden;
       touch-action: none;
     }
 
+    .game-page-container {
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0 auto;
+    }
+
     .header {
       text-align: center;
-      margin-bottom: 0.8rem;
+      margin-bottom: 1rem;
     }
 
     .title {
@@ -51,6 +60,7 @@
       font-size: clamp(2.8rem, 6vw, 4rem);
       margin-bottom: 0.2rem;
       text-shadow: 0 0 15px rgba(255, 107, 139, 0.6);
+      color: #fff;
     }
 
     .subtitle {
@@ -58,12 +68,11 @@
       font-size: 0.95rem;
     }
 
-    /* Game Canvas Container */
     .game-wrapper {
       position: relative;
       width: 100%;
-      max-width: 460px;
-      height: 520px;
+      max-width: 440px;
+      height: 480px;
       background: rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
@@ -71,19 +80,19 @@
       border-radius: 24px;
       box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
       overflow: hidden;
+      margin-bottom: 1.5rem;
     }
 
-    canvas {
+    #gameCanvas {
       display: block;
       width: 100%;
       height: 100%;
     }
 
-    /* Overlay Screens (Start & End) */
     .overlay {
       position: absolute;
       inset: 0;
-      background: rgba(26, 8, 18, 0.88);
+      background: rgba(26, 8, 18, 0.92);
       backdrop-filter: blur(8px);
       display: flex;
       flex-direction: column;
@@ -96,7 +105,7 @@
     }
 
     .overlay.hidden {
-      display: none;
+      display: none !important;
     }
 
     .overlay h2 {
@@ -131,7 +140,6 @@
       box-shadow: 0 6px 22px rgba(255, 107, 139, 0.65);
     }
 
-    /* Score Bar */
     .game-stats {
       position: absolute;
       top: 15px;
@@ -147,15 +155,15 @@
       z-index: 5;
     }
 
-    /* Bottom Nav */
     .bottom-nav {
-      margin-top: 1rem;
+      display: flex;
+      gap: 1rem;
     }
 
     .back-btn {
       color: #fff;
       text-decoration: none;
-      padding: 0.6rem 1.5rem;
+      padding: 0.6rem 1.4rem;
       border-radius: 30px;
       background: rgba(255, 107, 139, 0.2);
       border: 1px solid rgba(255, 107, 139, 0.5);
@@ -171,239 +179,231 @@
 </head>
 <body>
 
-  <header class="header">
-    <h1 class="title">Chapter One: The Catch</h1>
-    <p class="subtitle">You caught my heart from day one... now let's see your skills! ✨</p>
-  </header>
+  <div class="game-page-container">
+    <header class="header">
+      <h1 class="title">Chapter One: The Catch</h1>
+      <p class="subtitle">You caught my heart from day one... let's see your skills! ✨</p>
+    </header>
 
-  <div class="game-wrapper" id="gameContainer">
-    <div class="game-stats">
-      <span id="scoreDisplay">Hearts: 0</span>
-      <span id="timerDisplay">Time: 30s</span>
+    <div class="game-wrapper" id="gameContainer">
+      <div class="game-stats">
+        <span id="scoreDisplay">Hearts: 0</span>
+        <span id="timerDisplay">Time: 30s</span>
+      </div>
+
+      <canvas id="gameCanvas"></canvas>
+
+      <div class="overlay" id="startScreen">
+        <h2>Catch My Hearts!</h2>
+        <p>Move the basket across the screen to catch falling hearts and special gifts before the timer runs out. Ready, Neemu?</p>
+        <button class="btn-main" id="startBtn" onclick="window.runCatchGame()">Start Playing 💖</button>
+      </div>
+
+      <div class="overlay hidden" id="endScreen">
+        <h2 id="endHeading">You Won My Heart!</h2>
+        <p id="endMessage">You caught <strong id="finalScore" style="color:var(--accent-gold)">0</strong> hearts! Just like you captured my entire heart from day one. Happy Birthday Neemu! ❤️</p>
+        <button class="btn-main" id="restartBtn" onclick="window.runCatchGame()">Play Again ↺</button>
+      </div>
     </div>
 
-    <canvas id="gameCanvas"></canvas>
-
-    <div class="overlay" id="startScreen">
-      <h2>Catch My Hearts!</h2>
-      <p>Move your basket to collect falling hearts and gifts before time runs out. Are you ready, Neemu?</p>
-      <button class="btn-main" id="startBtn">Start Playing 💖</button>
+    <div class="bottom-nav">
+      <a href="page1.html" class="back-btn spa-link">← Chapter Menu</a>
+      <a href="index.html" class="back-btn spa-link">Home</a>
     </div>
-
-    <div class="overlay hidden" id="endScreen">
-      <h2 id="endHeading">You Won My Heart!</h2>
-      <p id="endMessage">You caught <strong id="finalScore" style="color:var(--accent-gold)">0</strong> hearts! Just like you caught my love every single day. Happy Birthday Neemu! ❤️</p>
-      <button class="btn-main" id="restartBtn">Play Again ↺</button>
-    </div>
-  </div>
-
-  <div class="bottom-nav">
-    <a href="index.html" class="back-btn">← Back to Home</a>
   </div>
 
   <script>
-    const canvas = document.getElementById('gameCanvas');
-    const ctx = canvas.getContext('2d');
-    const container = document.getElementById('gameContainer');
+    (function () {
+      const canvas = document.getElementById('gameCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const container = document.getElementById('gameContainer');
 
-    const startScreen = document.getElementById('startScreen');
-    const endScreen = document.getElementById('endScreen');
-    const startBtn = document.getElementById('startBtn');
-    const restartBtn = document.getElementById('restartBtn');
-    const scoreDisplay = document.getElementById('scoreDisplay');
-    const timerDisplay = document.getElementById('timerDisplay');
-    const finalScore = document.getElementById('finalScore');
+      const startScreen = document.getElementById('startScreen');
+      const endScreen = document.getElementById('endScreen');
+      const scoreDisplay = document.getElementById('scoreDisplay');
+      const timerDisplay = document.getElementById('timerDisplay');
+      const finalScore = document.getElementById('finalScore');
 
-    let animationId;
-    let score = 0;
-    let timeLeft = 30;
-    let timerInterval = null;
-    let gameRunning = false;
-    let items = [];
-    let particles = [];
+      let animationId = null;
+      let score = 0;
+      let timeLeft = 30;
+      let timerInterval = null;
+      let spawnTimer = null;
+      let gameRunning = false;
+      let items = [];
+      let particles = [];
 
-    function resize() {
-      canvas.width = container.clientWidth;
-      canvas.height = container.clientHeight;
-    }
-    resize();
-    window.addEventListener('resize', resize);
+      function setupCanvasSize() {
+        if (!container) return;
+        canvas.width = container.clientWidth || 360;
+        canvas.height = container.clientHeight || 480;
+      }
+      setupCanvasSize();
+      window.addEventListener('resize', setupCanvasSize);
 
-    // Basket / Player
-    const player = {
-      width: 80,
-      height: 24,
-      x: 0,
-      y: 0,
-      speed: 0
-    };
+      const player = {
+        width: 80,
+        height: 24,
+        x: 140,
+        y: 420
+      };
 
-    function resetPlayer() {
-      player.x = canvas.width / 2 - player.width / 2;
-      player.y = canvas.height - 45;
-    }
+      function updatePlayerPos(clientX) {
+        if (!gameRunning) return;
+        const rect = canvas.getBoundingClientRect();
+        const posX = clientX - rect.left - player.width / 2;
+        player.x = Math.max(0, Math.min(canvas.width - player.width, posX));
+      }
 
-    // Touch and Mouse Controls
-    function handleMove(e) {
-      if (!gameRunning) return;
-      const rect = canvas.getBoundingClientRect();
-      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-      const posX = clientX - rect.left - player.width / 2;
-      player.x = Math.max(0, Math.min(canvas.width - player.width, posX));
-    }
+      window.addEventListener('mousemove', (e) => updatePlayerPos(e.clientX));
+      window.addEventListener('touchmove', (e) => {
+        if (e.touches && e.touches[0]) updatePlayerPos(e.touches[0].clientX);
+      }, { passive: true });
 
-    window.addEventListener('mousemove', handleMove);
-    window.addEventListener('touchmove', handleMove, { passive: false });
+      const itemTypes = [
+        { emoji: '💖', points: 1, speed: 2.2, size: 28 },
+        { emoji: '💕', points: 1, speed: 2.5, size: 26 },
+        { emoji: '💘', points: 2, speed: 3.2, size: 30 },
+        { emoji: '🎁', points: 3, speed: 3.8, size: 32 },
+        { emoji: '🌸', points: 1, speed: 2.0, size: 26 }
+      ];
 
-    // Item Types (Hearts and Special Gifts)
-    const itemTypes = [
-      { emoji: '💖', points: 1, speed: 2.2, size: 28 },
-      { emoji: '💕', points: 1, speed: 2.5, size: 26 },
-      { emoji: '💘', points: 2, speed: 3.2, size: 30 },
-      { emoji: '🎁', points: 3, speed: 3.8, size: 32 },
-      { emoji: '🌸', points: 1, speed: 2.0, size: 26 }
-    ];
-
-    function spawnItem() {
-      if (!gameRunning) return;
-      const type = itemTypes[Math.floor(Math.random() * itemTypes.length)];
-      items.push({
-        x: Math.random() * (canvas.width - 40) + 10,
-        y: -30,
-        ...type
-      });
-    }
-
-    function createSparkles(x, y, color = '#ff6b8b') {
-      for (let i = 0; i < 8; i++) {
-        particles.push({
-          x, y,
-          vx: (Math.random() - 0.5) * 6,
-          vy: (Math.random() - 0.5) * 6,
-          radius: Math.random() * 3 + 2,
-          alpha: 1,
-          color
+      function spawnItem() {
+        if (!gameRunning) return;
+        const type = itemTypes[Math.floor(Math.random() * itemTypes.length)];
+        items.push({
+          x: Math.random() * (canvas.width - 50) + 25,
+          y: -30,
+          ...type
         });
       }
-    }
 
-    function update() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Draw Player Basket
-      ctx.save();
-      ctx.fillStyle = '#ff6b8b';
-      ctx.shadowColor = '#ff6b8b';
-      ctx.shadowBlur = 15;
-      ctx.beginPath();
-      ctx.roundRect(player.x, player.y, player.width, player.height, 12);
-      ctx.fill();
-
-      // Basket inner bow
-      ctx.fillStyle = '#ffffff';
-      ctx.font = '16px sans-serif';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText('🎀', player.x + player.width / 2, player.y + player.height / 2);
-      ctx.restore();
-
-      // Update & Draw Items
-      for (let i = items.length - 1; i >= 0; i--) {
-        const item = items[i];
-        item.y += item.speed;
-
-        ctx.font = `${item.size}px sans-serif`;
-        ctx.textAlign = 'center';
-        ctx.fillText(item.emoji, item.x, item.y);
-
-        // Catch Collision Detection
-        if (
-          item.y >= player.y - 10 &&
-          item.y <= player.y + player.height &&
-          item.x >= player.x - 10 &&
-          item.x <= player.x + player.width + 10
-        ) {
-          score += item.points;
-          scoreDisplay.textContent = `Hearts: ${score}`;
-          createSparkles(item.x, item.y);
-          items.splice(i, 1);
-          continue;
-        }
-
-        // Remove offscreen
-        if (item.y > canvas.height + 40) {
-          items.splice(i, 1);
+      function createSparkles(x, y) {
+        for (let i = 0; i < 8; i++) {
+          particles.push({
+            x, y,
+            vx: (Math.random() - 0.5) * 6,
+            vy: (Math.random() - 0.5) * 6,
+            radius: Math.random() * 3 + 2,
+            alpha: 1
+          });
         }
       }
 
-      // Update Sparkle Particles
-      for (let i = particles.length - 1; i >= 0; i--) {
-        const p = particles[i];
-        p.x += p.vx;
-        p.y += p.vy;
-        p.alpha -= 0.03;
-        if (p.alpha <= 0) {
-          particles.splice(i, 1);
-          continue;
-        }
+      function renderFrame() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Basket
         ctx.save();
-        ctx.globalAlpha = p.alpha;
-        ctx.fillStyle = p.color;
+        ctx.fillStyle = '#ff6b8b';
+        ctx.shadowColor = '#ff6b8b';
+        ctx.shadowBlur = 12;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-      }
-
-      if (gameRunning) {
-        animationId = requestAnimationFrame(update);
-      }
-    }
-
-    let spawnTimer = null;
-
-    function startGame() {
-      score = 0;
-      timeLeft = 30;
-      items = [];
-      particles = [];
-      gameRunning = true;
-      scoreDisplay.textContent = 'Hearts: 0';
-      timerDisplay.textContent = 'Time: 30s';
-
-      startScreen.classList.add('hidden');
-      endScreen.classList.add('hidden');
-
-      resetPlayer();
-
-      if (spawnTimer) clearInterval(spawnTimer);
-      if (timerInterval) clearInterval(timerInterval);
-
-      spawnTimer = setInterval(spawnItem, 600);
-
-      timerInterval = setInterval(() => {
-        timeLeft--;
-        timerDisplay.textContent = `Time: ${timeLeft}s`;
-        if (timeLeft <= 0) {
-          endGame();
+        if (ctx.roundRect) {
+          ctx.roundRect(player.x, player.y, player.width, player.height, 12);
+        } else {
+          ctx.rect(player.x, player.y, player.width, player.height);
         }
-      }, 1000);
+        ctx.fill();
 
-      update();
-    }
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '16px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('🎀', player.x + player.width / 2, player.y + player.height / 2);
+        ctx.restore();
 
-    function endGame() {
-      gameRunning = false;
-      clearInterval(spawnTimer);
-      clearInterval(timerInterval);
-      cancelAnimationFrame(animationId);
+        // Falling items
+        for (let i = items.length - 1; i >= 0; i--) {
+          const item = items[i];
+          item.y += item.speed;
 
-      finalScore.textContent = score;
-      endScreen.classList.remove('hidden');
-    }
+          ctx.font = `${item.size}px sans-serif`;
+          ctx.textAlign = 'center';
+          ctx.fillText(item.emoji, item.x, item.y);
 
-    startBtn.addEventListener('click', startGame);
-    restartBtn.addEventListener('click', startGame);
+          // Collision detection
+          if (
+            item.y >= player.y - 10 &&
+            item.y <= player.y + player.height &&
+            item.x >= player.x - 10 &&
+            item.x <= player.x + player.width + 10
+          ) {
+            score += item.points;
+            scoreDisplay.textContent = `Hearts: ${score}`;
+            createSparkles(item.x, item.y);
+            items.splice(i, 1);
+            continue;
+          }
+
+          if (item.y > canvas.height + 40) {
+            items.splice(i, 1);
+          }
+        }
+
+        // Particles
+        for (let i = particles.length - 1; i >= 0; i--) {
+          const p = particles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+          p.alpha -= 0.03;
+          if (p.alpha <= 0) {
+            particles.splice(i, 1);
+            continue;
+          }
+          ctx.save();
+          ctx.globalAlpha = p.alpha;
+          ctx.fillStyle = '#ff6b8b';
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+
+        if (gameRunning) {
+          animationId = requestAnimationFrame(renderFrame);
+        }
+      }
+
+      window.runCatchGame = function () {
+        setupCanvasSize();
+        score = 0;
+        timeLeft = 30;
+        items = [];
+        particles = [];
+        gameRunning = true;
+        scoreDisplay.textContent = 'Hearts: 0';
+        timerDisplay.textContent = 'Time: 30s';
+
+        startScreen.classList.add('hidden');
+        endScreen.classList.add('hidden');
+
+        player.x = canvas.width / 2 - player.width / 2;
+        player.y = canvas.height - 45;
+
+        if (spawnTimer) clearInterval(spawnTimer);
+        if (timerInterval) clearInterval(timerInterval);
+
+        spawnTimer = setInterval(spawnItem, 550);
+
+        timerInterval = setInterval(() => {
+          timeLeft--;
+          timerDisplay.textContent = `Time: ${timeLeft}s`;
+          if (timeLeft <= 0) {
+            gameRunning = false;
+            clearInterval(spawnTimer);
+            clearInterval(timerInterval);
+            cancelAnimationFrame(animationId);
+            finalScore.textContent = score;
+            endScreen.classList.remove('hidden');
+          }
+        }, 1000);
+
+        cancelAnimationFrame(animationId);
+        renderFrame();
+      };
+    })();
   </script>
 </body>
 </html>
