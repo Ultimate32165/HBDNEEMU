@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bake Our Birthday Cake | For Neemu ❤️</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&family=Great+Vibes&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --bg-gradient: radial-gradient(circle at 50% 30%, #301020 0%, #170510 60%, #0c0208 100%);
+      --accent-pink: #ff5e88;
+      --accent-rose: #ff85a1;
+      --accent-gold: #f6d365;
+      --card-glass: rgba(255, 255, 255, 0.05);
+      --card-border: rgba(255, 192, 203, 0.22);
+      --text-main: #fff5f8;
+      --text-sub: #fbcfe8;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg-gradient);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 2rem 1rem 3.5rem;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 15%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 450px;
+      height: 450px;
+      background: radial-gradient(circle, rgba(255, 94, 136, 0.18) 0%, rgba(246, 211, 101, 0.08) 50%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .header {
+      text-align: center;
+      z-index: 2;
+      margin-bottom: 1rem;
+    }
+
+    .title {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(3rem, 7vw, 4.8rem);
+      color: #fff;
+      text-shadow: 0 0 20px rgba(255, 94, 136, 0.8), 0 0 40px rgba(246, 211, 101, 0.4);
+      margin-bottom: 0.1rem;
+    }
+
+    .subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--text-sub);
+      letter-spacing: 0.5px;
+    }
+
+    .atelier-card {
+      position: relative;
+      width: 100%;
+      max-width: 540px;
+      background: var(--card-glass);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1.5px solid var(--card-border);
+      border-radius: 32px;
+      padding: 2.2rem 1.8rem;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 2;
+    }
+
+    .steps-timeline {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 1.2rem;
+      width: 100%;
+    }
+
+    .pill {
+      height: 4px;
+      flex: 1;
+      max-width: 55px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 4px;
+      transition: all 0.4s ease;
+    }
+
+    .pill.active {
+      background: linear-gradient(90deg, var(--accent-pink), var(--accent-gold));
+      box-shadow: 0 0 10px var(--accent-pink);
+    }
+
+    .step-label {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 700;
+      color: var(--accent-gold);
+      margin-bottom: 0.2rem;
+    }
+
+    .step-prompt {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #fff;
+      text-align: center;
+      margin-bottom: 1.4rem;
+      min-height: 28px;
+    }
+
+    /* CAKE SCENE */
+    .cake-scene {
+      position: relative;
+      width: 100%;
+      height: 310px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding-bottom: 24px;
+      margin-bottom: 1.5rem;
+    }
+
+    .stand-base {
+      position: absolute;
+      bottom: 10px;
+      width: 290px;
+      height: 16px;
+      background: linear-gradient(180deg, #ffeaa7 0%, #d4af37 50%, #997b1a 100%);
+      border-radius: 50% 50% 10px 10px / 12px 12px 6px 6px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), inset 0 2px 2px rgba(255, 255, 255, 0.8);
+      z-index: 1;
+    }
+
+    .stand-pillar {
+      position: absolute;
+      bottom: 0px;
+      width: 80px;
+      height: 14px;
+      background: linear-gradient(90deg, #aa820a, #ffd700, #aa820a);
+      border-radius: 0 0 8px 8px;
+      z-index: 0;
+    }
+
+    /* Cake Body Container strictly holding all 3 tiers */
+    .cake-body {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      z-index: 3;
+    }
+
+    .tier {
+      position: relative;
+      border-radius: 16px 16px 8px 8px;
+      transition: background 0.5s ease, transform 0.3s ease;
+      box-shadow: 
+        inset 0 -8px 12px rgba(0, 0, 0, 0.35),
+        inset 0 4px 6px rgba(255, 255, 255, 0.25),
+        0 10px 25px rgba(0, 0, 0, 0.45);
+    }
+
+    .tier-bottom {
+      width: 250px;
+      height: 70px;
+      background: #f7a072;
+      z-index: 4;
+    }
+
+    .tier-mid {
+      width: 175px;
+      height: 60px;
+      background: #f7a072;
+      margin-bottom: -4px;
+      z-index: 6;
+    }
+
+    .tier-top {
+      width: 105px;
+      height: 50px;
+      background: #f7a072;
+      margin-bottom: -4px;
+      z-index: 8;
+    }
+
+    .glaze {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 22px;
+      border-radius: 16px 16px 12px 12px;
+      background: #ffffff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15), inset 0 2px 3px rgba(255,255,255,0.8);
+      transition: background 0.5s ease;
+      z-index: 1;
+    }
+
+    .glaze::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 10%;
+      width: 10px;
+      height: 10px;
+      background: inherit;
+      border-radius: 0 0 10px 10px;
+      box-shadow: 28px 2px 0 0 inherit, 65px -2px 0 1px inherit, 100px 3px 0 -1px inherit;
+    }
+
+    .rosette-border {
+      position: absolute;
+      bottom: -4px;
+      left: 4px;
+      right: 4px;
+      height: 10px;
+      background: radial-gradient(circle at 50% 50%, #fff 45%, transparent 55%);
+      background-size: 12px 12px;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      z-index: 2;
+    }
+
+    .rosette-border.show {
+      opacity: 1;
+    }
+
+    /* Candle */
+    .candle-assembly {
+      position: absolute;
+      top: -46px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 12px;
+      height: 48px;
+      background: repeating-linear-gradient(45deg, #fff, #fff 5px, #ff6b8b 5px, #ff6b8b 10px);
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      z-index: 20;
+      display: none;
+      cursor: pointer;
+    }
+
+    .candle-assembly.show {
+      display: block;
+      animation: dropIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .flame-halo {
+      position: absolute;
+      top: -24px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 16px;
+      height: 26px;
+      background: radial-gradient(ellipse at 50% 80%, #ffffff 15%, #ffd166 50%, #ff4d6d 90%);
+      border-radius: 50% 50% 35% 35%;
+      box-shadow: 0 0 20px #ffd166, 0 0 35px #ff6b8b, 0 0 50px rgba(255, 107, 139, 0.6);
+      animation: flameMotion 0.6s infinite alternate ease-in-out;
+    }
+
+    @keyframes flameMotion {
+      0% { transform: translateX(-50%) scale(1) rotate(-3deg); }
+      100% { transform: translateX(-50%) scale(1.18) rotate(3deg); }
+    }
+
+    .smoke-trail {
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 10px;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 50%;
+      display: none;
+    }
+
+    .smoke-trail.rise {
+      display: block;
+      animation: smokeRise 1.8s forwards ease-out;
+    }
+
+    @keyframes smokeRise {
+      0% { transform: translateX(-50%) scale(1); opacity: 0.8; }
+      100% { transform: translate(-50%, -60px) scale(4); opacity: 0; }
+    }
+
+    /* Toppings - Positioned in the visible shoulder areas */
+    .toppings-wrapper {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .item-topping {
+      position: absolute;
+      font-size: 1.25rem;
+      filter: drop-shadow(0 3px 5px rgba(0,0,0,0.35));
+      animation: dropIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes dropIn {
+      0% { transform: translateY(-25px) scale(0); opacity: 0; }
+      100% { transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    /* Scoped Knife Cut Line */
+    .knife-cut-line {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 3px;
+      background: linear-gradient(180deg, transparent, #ffffff, #ffd166, transparent);
+      box-shadow: 0 0 15px #ffd166;
+      opacity: 0;
+      transform: scaleY(0);
+      transition: all 0.5s ease;
+      z-index: 25;
+      pointer-events: none;
+    }
+
+    .knife-cut-line.sliced {
+      opacity: 1;
+      transform: scaleY(1);
+    }
+
+    /* Options Grid */
+    .custom-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      width: 100%;
+      margin-bottom: 1.5rem;
+    }
+
+    .choice-btn {
+      padding: 0.75rem 0.5rem;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.06);
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      font-family: inherit;
+    }
+
+    .choice-btn span.icon {
+      font-size: 1.4rem;
+    }
+
+    .choice-btn:hover {
+      background: rgba(255, 94, 136, 0.25);
+      border-color: var(--accent-pink);
+      transform: translateY(-3px);
+    }
+
+    .choice-btn.active {
+      background: linear-gradient(135deg, rgba(255, 94, 136, 0.4), rgba(246, 211, 101, 0.3));
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 16px rgba(246, 211, 101, 0.35);
+      transform: scale(1.03);
+    }
+
+    /* Action Buttons */
+    .action-controls {
+      display: flex;
+      gap: 12px;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .btn-atelier {
+      padding: 0.8rem 2rem;
+      border-radius: 30px;
+      border: none;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      font-family: inherit;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, var(--accent-pink), #ff3366);
+      color: #fff;
+      box-shadow: 0 6px 20px rgba(255, 94, 136, 0.45);
+    }
+
+    .btn-gold:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 25px rgba(255, 94, 136, 0.65);
+    }
+
+    .btn-outline {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--text-sub);
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+    }
+
+    /* Ceremony Card */
+    .ceremony-card {
+      display: none;
+      width: 100%;
+      text-align: center;
+      margin-top: 1.2rem;
+      animation: dropIn 0.6s ease;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--accent-gold);
+      border-radius: 24px;
+      padding: 1.8rem 1.4rem;
+      box-shadow: 0 0 30px rgba(246, 211, 101, 0.2);
+    }
+
+    .ceremony-card.active {
+      display: block;
+    }
+
+    .ceremony-card h3 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.8rem;
+      color: var(--accent-gold);
+      margin-bottom: 0.4rem;
+      text-shadow: 0 0 12px rgba(246, 211, 101, 0.5);
+    }
+
+    .ceremony-card p {
+      font-size: 0.98rem;
+      color: #fff;
+      line-height: 1.6;
+      margin-bottom: 1.2rem;
+    }
+
+    .cut-cake-slider-box {
+      background: rgba(0, 0, 0, 0.35);
+      border-radius: 30px;
+      padding: 6px;
+      position: relative;
+      margin: 1.2rem auto 0.5rem;
+      max-width: 320px;
+      border: 1px solid rgba(255, 192, 203, 0.3);
+    }
+
+    .cut-slider-btn {
+      width: 100%;
+      padding: 0.8rem;
+      border-radius: 25px;
+      background: linear-gradient(135deg, #ffd700, #ff85a1);
+      border: none;
+      color: #310816;
+      font-weight: 800;
+      font-size: 0.95rem;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(246, 211, 101, 0.4);
+      transition: all 0.2s ease;
+    }
+
+    .cut-slider-btn:hover {
+      transform: scale(1.03);
+    }
+
+    .bottom-nav {
+      display: flex;
+      gap: 1rem;
+      z-index: 2;
+      margin-top: 1.5rem;
+    }
+
+    .back-btn {
+      color: #fff;
+      text-decoration: none;
+      padding: 0.65rem 1.6rem;
+      border-radius: 30px;
+      background: rgba(255, 94, 136, 0.2);
+      border: 1px solid rgba(255, 94, 136, 0.45);
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background: rgba(255, 94, 136, 0.4);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <h1 class="title">Bake Neemu's Cake</h1>
+    <p class="subtitle">A customized birthday cake crafted with all my love ✨</p>
+  </header>
+
+  <main class="atelier-card">
+    <div class="steps-timeline">
+      <div class="pill active" id="p1"></div>
+      <div class="pill" id="p2"></div>
+      <div class="pill" id="p3"></div>
+      <div class="pill" id="p4"></div>
+      <div class="pill" id="p5"></div>
+    </div>
+
+    <span class="step-label" id="stepIndicator">Stage 1 of 5</span>
+    <h2 class="step-prompt" id="stepPrompt">Choose the gourmet cake base flavour:</h2>
+
+    <div class="cake-scene">
+      <!-- Cake Body Wrapper (Strictly contains tiers and scoped knife cut) -->
+      <div class="cake-body">
+        
+        <!-- Top Tier -->
+        <div class="tier tier-top" id="topTier">
+          <div class="candle-assembly" id="candleAssembly" onclick="blowOutCandle()">
+            <div class="flame-halo" id="flame"></div>
+            <div class="smoke-trail" id="smoke"></div>
+          </div>
+          <div class="glaze" id="topGlaze"></div>
+          <div class="rosette-border" id="topRosettes"></div>
+          <div class="toppings-wrapper" id="topToppings"></div>
+        </div>
+
+        <!-- Mid Tier -->
+        <div class="tier tier-mid" id="midTier">
+          <div class="glaze" id="midGlaze"></div>
+          <div class="rosette-border" id="midRosettes"></div>
+          <div class="toppings-wrapper" id="midToppings"></div>
+        </div>
+
+        <!-- Bottom Tier -->
+        <div class="tier tier-bottom" id="bottomTier">
+          <div class="glaze" id="bottomGlaze"></div>
+          <div class="rosette-border" id="bottomRosettes"></div>
+          <div class="toppings-wrapper" id="bottomToppings"></div>
+        </div>
+
+        <div class="knife-cut-line" id="knifeLine"></div>
+      </div>
+
+      <!-- Golden Stand -->
+      <div class="stand-base"></div>
+      <div class="stand-pillar"></div>
+    </div>
+
+    <!-- Interactive Grid -->
+    <div class="custom-grid" id="choicesGrid"></div>
+
+    <!-- Action Controls -->
+    <div class="action-controls">
+      <button class="btn-atelier btn-outline" onclick="resetAtelier()">Reset ↺</button>
+      <button class="btn-atelier btn-gold" id="nextStepBtn" onclick="nextStage()">Continue →</button>
+    </div>
+
+    <!-- Cake Cutting Ceremony Card -->
+    <div class="ceremony-card" id="ceremonyCard">
+      <h3>Happy Birthday Neemu! 🎂💖</h3>
+      <p id="ceremonyMessage">
+        I wish I could hold your hand and cut this cake right beside you today. But until I can do it in person, this cake was baked purely with love for my favorite girl. Make a wish and let's cut it together!
+      </p>
+      <div class="cut-cake-slider-box">
+        <button class="cut-slider-btn" id="cutActionBtn" onclick="performCakeCut()">🔪 Cut the First Slice Together ❤️</button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bottom-nav">
+    <a href="page1.html" class="back-btn spa-link">← Chapter Menu</a>
+    <a href="index.html" class="back-btn spa-link">Home</a>
+  </footer>
+
+  <script>
+    let currentStage = 1;
+
+    const stagesConfig = {
+      1: {
+        label: "Stage 1 of 5",
+        prompt: "Choose the gourmet sponge cake flavor:",
+        type: "flavor",
+        options: [
+          { name: "Belgian Velvet", icon: "🍫", color: "#4a2c20" },
+          { name: "Wild Strawberry", icon: "🍓", color: "#f87593" },
+          { name: "Rose Vanilla", icon: "🌹", color: "#ffeaa7" },
+          { name: "Matcha Pistachio", icon: "🍵", color: "#98b068" },
+          { name: "Ruby Berry", icon: "🍒", color: "#b83b5e" },
+          { name: "Salted Honey", icon: "🍯", color: "#e8a84c" }
+        ]
+      },
+      2: {
+        label: "Stage 2 of 5",
+        prompt: "Drizzle smooth drip glaze over the tiers:",
+        type: "glaze",
+        options: [
+          { name: "White Cream", icon: "🤍", color: "#ffffff" },
+          { name: "Strawberry Rose", icon: "🌸", color: "#ff9bb2" },
+          { name: "Dark Ganache", icon: "🍫", color: "#2d150b" },
+          { name: "Golden Honey", icon: "✨", color: "#ffda79" },
+          { name: "Lilac Glaze", icon: "💜", color: "#d1b3ff" },
+          { name: "Matcha Melt", icon: "🍵", color: "#bed698" }
+        ]
+      },
+      3: {
+        label: "Stage 3 of 5",
+        prompt: "Add delicate piped cream rosettes:",
+        type: "piping",
+        options: [
+          { name: "Classic Pearls", icon: "🧁", action: "show" },
+          { name: "Clean Modern", icon: "✨", action: "hide" }
+        ]
+      },
+      4: {
+        label: "Stage 4 of 5",
+        prompt: "Scatter gourmet toppings across the cake ledges:",
+        type: "toppings",
+        options: [
+          { name: "Ripe Berries", icon: "🍓", emoji: "🍓" },
+          { name: "Ruby Cherries", icon: "🍒", emoji: "🍒" },
+          { name: "Gold Stars", icon: "⭐", emoji: "⭐" },
+          { name: "Sweet Hearts", icon: "💖", emoji: "💖" },
+          { name: "Macarons", icon: "🍪", emoji: "🧁" },
+          { name: "Sparkles", icon: "✨", emoji: "✨" }
+        ]
+      },
+      5: {
+        label: "Stage 5 of 5",
+        prompt: "Tap the candle flame to blow it out and make your wish! 🕯️",
+        type: "candle",
+        options: []
+      }
+    };
+
+    function renderStage() {
+      const stage = stagesConfig[currentStage];
+      document.getElementById('stepIndicator').textContent = stage.label;
+      document.getElementById('stepPrompt').textContent = stage.prompt;
+
+      for (let i = 1; i <= 5; i++) {
+        document.getElementById(`p${i}`).classList.toggle('active', i <= currentStage);
+      }
+
+      const grid = document.getElementById('choicesGrid');
+      grid.innerHTML = '';
+
+      if (currentStage === 5) {
+        document.getElementById('candleAssembly').classList.add('show');
+        document.getElementById('nextStepBtn').style.display = 'none';
+        grid.style.display = 'none';
+        return;
+      }
+
+      grid.style.display = 'grid';
+      document.getElementById('nextStepBtn').style.display = 'inline-flex';
+
+      stage.options.forEach((opt) => {
+        const btn = document.createElement('button');
+        btn.className = 'choice-btn';
+        btn.innerHTML = `<span class="icon">${opt.icon}</span><span>${opt.name}</span>`;
+        btn.onclick = () => selectOption(stage.type, opt, btn);
+        grid.appendChild(btn);
+      });
+    }
+
+    function selectOption(type, opt, btn) {
+      document.querySelectorAll('.choice-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const top = document.getElementById('topTier');
+      const mid = document.getElementById('midTier');
+      const bottom = document.getElementById('bottomTier');
+
+      if (type === "flavor") {
+        [top, mid, bottom].forEach(t => {
+          t.style.background = opt.color;
+        });
+      } else if (type === "glaze") {
+        document.getElementById('topGlaze').style.background = opt.color;
+        document.getElementById('midGlaze').style.background = opt.color;
+        document.getElementById('bottomGlaze').style.background = opt.color;
+      } else if (type === "piping") {
+        const show = opt.action === "show";
+        document.getElementById('topRosettes').classList.toggle('show', show);
+        document.getElementById('midRosettes').classList.toggle('show', show);
+        document.getElementById('bottomRosettes').classList.toggle('show', show);
+      } else if (type === "toppings") {
+        addToppings(opt.emoji);
+      }
+    }
+
+    function addToppings(emoji) {
+  const topT = document.getElementById('topToppings');
+  const midT = document.getElementById('midToppings');
+  const btmT = document.getElementById('bottomToppings');
+
+  topT.innerHTML = '';
+  midT.innerHTML = '';
+  btmT.innerHTML = '';
+
+  // Helper to create a randomized topping
+  function createScrambledTopping(xMin, xMax, yMin, yMax) {
+    const item = document.createElement('div');
+    item.className = 'item-topping';
+    item.textContent = emoji;
+
+    // Random X & Y within the safe ledge zone
+    const posX = Math.random() * (xMax - xMin) + xMin;
+    const posY = Math.random() * (yMax - yMin) + yMin;
+    
+    // Random slight rotation for natural organic look (-20deg to +20deg)
+    const rot = (Math.random() - 0.5) * 40;
+    
+    // Random subtle scale variation (0.85x to 1.15x)
+    const scale = Math.random() * 0.3 + 0.85;
+
+    item.style.left = `${posX}px`;
+    item.style.top = `${posY}px`;
+    item.style.transform = `rotate(${rot}deg) scale(${scale})`;
+    item.style.animationDelay = `${Math.random() * 0.15}s`;
+
+    return item;
+  }
+
+  // 1. Top Tier: 2–3 scattered pieces flanking the candle
+  topT.appendChild(createScrambledTopping(6, 26, -14, -6));
+  topT.appendChild(createScrambledTopping(60, 80, -14, -6));
+  if (Math.random() > 0.4) {
+    topT.appendChild(createScrambledTopping(12, 70, -18, -10));
+  }
+
+  // 2. Mid Tier: Left shoulder & Right shoulder (2 on each side)
+  midT.appendChild(createScrambledTopping(4, 26, -12, -4));
+  midT.appendChild(createScrambledTopping(6, 28, -8, 2));
+  midT.appendChild(createScrambledTopping(135, 155, -12, -4));
+  midT.appendChild(createScrambledTopping(138, 158, -8, 2));
+
+  // 3. Bottom Tier: Left shoulder & Right shoulder (3 on each side)
+  btmT.appendChild(createScrambledTopping(4, 28, -10, -3));
+  btmT.appendChild(createScrambledTopping(8, 30, -6, 4));
+  btmT.appendChild(createScrambledTopping(205, 230, -10, -3));
+  btmT.appendChild(createScrambledTopping(208, 232, -6, 4));
+}
+
+    function nextStage() {
+      if (currentStage < 5) {
+        currentStage++;
+        renderStage();
+      }
+    }
+
+    function resetAtelier() {
+      currentStage = 1;
+      const defaultFlavour = '#f7a072';
+      const defaultGlaze = '#ffffff';
+
+      ['topTier', 'midTier', 'bottomTier'].forEach(id => {
+        document.getElementById(id).style.background = defaultFlavour;
+      });
+
+      ['topGlaze', 'midGlaze', 'bottomGlaze'].forEach(id => {
+        document.getElementById(id).style.background = defaultGlaze;
+      });
+
+      ['topRosettes', 'midRosettes', 'bottomRosettes'].forEach(id => {
+        document.getElementById(id).classList.remove('show');
+      });
+
+      document.getElementById('topToppings').innerHTML = '';
+      document.getElementById('midToppings').innerHTML = '';
+      document.getElementById('bottomToppings').innerHTML = '';
+
+      document.getElementById('candleAssembly').classList.remove('show');
+      document.getElementById('flame').style.display = 'block';
+      document.getElementById('smoke').classList.remove('rise');
+      document.getElementById('knifeLine').classList.remove('sliced');
+      document.getElementById('ceremonyCard').classList.remove('active');
+
+      renderStage();
+    }
+
+    function blowOutCandle() {
+      const flame = document.getElementById('flame');
+      const smoke = document.getElementById('smoke');
+
+      if (flame.style.display === 'none') return;
+
+      flame.style.display = 'none';
+      smoke.classList.add('rise');
+
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 80,
+          spread: 70,
+          origin: { y: 0.55 },
+          colors: ['#ffd166', '#ff85a1', '#ffffff']
+        });
+      }
+
+      setTimeout(() => {
+        document.getElementById('ceremonyCard').classList.add('active');
+        document.getElementById('ceremonyCard').scrollIntoView({ behavior: 'smooth' });
+      }, 600);
+    }
+
+    function performCakeCut() {
+      const knifeLine = document.getElementById('knifeLine');
+      knifeLine.classList.add('sliced');
+
+      const btn = document.getElementById('cutActionBtn');
+      btn.textContent = "🎉 Cake Cut Together! I Love You Neemu ❤️";
+      btn.style.background = "linear-gradient(135deg, #ff5e88, #ff3366)";
+      btn.style.color = "#ffffff";
+      btn.disabled = true;
+
+      if (typeof confetti === 'function') {
+        const end = Date.now() + 2.5 * 1000;
+        const colors = ['#ff5e88', '#ffd166', '#ffffff', '#ff85a1', '#f368e0'];
+
+        (function frame() {
+          confetti({
+            particleCount: 5,
+            angle: 60,
+            spread: 55,
+            origin: { x: 0 },
+            colors: colors
+          });
+          confetti({
+            particleCount: 5,
+            angle: 120,
+            spread: 55,
+            origin: { x: 1 },
+            colors: colors
+          });
+
+          if (Date.now() < end) {
+            requestAnimationFrame(frame);
+          }
+        }());
+      }
+    }
+
+    renderStage();
+  </script>
+</body>
+</html>
