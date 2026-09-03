@@ -144,7 +144,6 @@
       user-select: text;
     }
 
-    /* Custom Scrollbar for Individual Long Text Boxes */
     .secret-text-content::-webkit-scrollbar {
       width: 5px;
     }
@@ -202,7 +201,6 @@
       transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.5s ease;
     }
 
-    /* Color variations for sticky notes */
     .sticky-note-cover.pink {
       background: linear-gradient(135deg, #ff8fa3 0%, #ff6b8b 100%);
       color: #3a0011;
@@ -216,7 +214,6 @@
       color: #431407;
     }
 
-    /* Tape / Pin graphic on sticky note */
     .tape {
       position: absolute;
       top: -6px;
@@ -286,148 +283,153 @@
   <!-- Control Actions -->
   <div class="controls-bar">
     <div class="counter-badge" id="counterDisplay">0 / 50 Unlocked</div>
-    <button class="action-btn" onclick="revealAll()">Peel All 💌</button>
-    <button class="action-btn" onclick="coverAll()">Cover All ↺</button>
+    <button class="action-btn" onclick="window.ReasonsApp.revealAll()">Peel All 💌</button>
+    <button class="action-btn" onclick="window.ReasonsApp.coverAll()">Cover All ↺</button>
   </div>
 
   <!-- 50 Interactive Boxes Grid -->
-  <main class="reasons-grid" id="reasonsGrid">
-    <!-- Generated dynamically via JavaScript -->
-  </main>
+  <main class="reasons-grid" id="reasonsGrid"></main>
 
   <footer class="bottom-nav">
-    <a href="index.html" class="back-btn">← Back to Home</a>
+    <a href="index.html" class="back-btn spa-link">← Back to Home</a>
   </footer>
 
   <script>
-    // List of 50 Romantic Reasons (feel free to edit or add more!)
-    const reasonsList = [
-      "The way your smile instantly fixes my entire mood, no matter how bad my day was.",
-      "How cute you look when you get sleepy and softly talk to me.",
-      "Your laugh that makes my heart flutter every single time.",
-      "How caring and protective you are toward me.",
-      "The way you say my name—it sounds special only when you say it.",
-      "Even when we fight, we always find our way back to each other.",
-      "Because talking to you every day since February has become my favorite habit.",
-      "How effortlessly beautiful you look, even without trying at all.",
-      "Your warm, kind heart that cares so deeply about people.",
-      "The cute little voices and random silly noises you make when you're happy.",
-      "Because you understand my silent moods without me having to explain.",
-      "The way your eyes light up when you talk about things you love.",
-      "How patient you are with me when I get stubborn or emotional.",
-      "Because you make ordinary days feel like a scene from a dream.",
-      "The warmth and peace I feel just by hearing your voice.",
-      "How you always make sure I've eaten and taken care of myself.",
-      "Because you're not just my girlfriend, you're my best friend and safe space.",
-      "The sweet and random messages you send that make me blush alone.",
-      "How you look at me like I am the only person in the room.",
-      "Because you believe in me even during times when I doubt myself.",
-      "Your unique sense of humor that always gets me giggling.",
-      "How we can talk for hours about completely random things and never get bored.",
-      "The way you pamper me when I need comfort the most.",
-      "Because my world felt incomplete until you walked right into it.",
-      "How pretty you look when you get all shy and blush.",
-      "Because every song on our playlist reminds me of you.",
-      "The way you remember tiny details about me that I didn't even notice.",
-      "Because loving you is the easiest, most natural choice I've ever made.",
-      "Your gentle touch and how safe I feel in your arms.",
-      "How we have our own secret jokes that nobody else understands.",
-      "Because you forgive my flaws and love me for exactly who I am.",
-      "The cute photos and selfies you send that become my instant favorites.",
-      "Because seeing you happy gives me the greatest joy in life.",
-      "The way you motivate me to be a better person every single day.",
-      "How you listen to my long rants without ever complaining.",
-      "Because you're the first person I want to tell good news to.",
-      "How sweet and gentle you are when you comfort me.",
-      "Because late nights with you feel like only five minutes.",
-      "The way you randomly check in on me throughout the day.",
-      "Because your hugs have the power to heal all my stress.",
-      "How adorable you look when you get genuinely surprised.",
-      "Because you never let our arguments ruin the love we share.",
-      "The excitement I feel every time your name pops up on my phone screen.",
-      "How you make every single memory together unforgettable.",
-      "Because no matter where I go, you will always be my home.",
-      "Your cute little pout whenever you pretend to be mad at me.",
-      "Because you love me unconditionally and wholeheartedly.",
-      "How lucky I feel to wake up knowing you are mine.",
-      "Because you're my favorite person in this entire universe.",
-      "And simply because you are you, my sweet Neemu—forever & always. ❤️"
-    ];
+    (function() {
+      // Isolate the namespace to avoid duplicate declaration syntax errors
+      window.ReasonsApp = {
+        reasonsList: [
+          "The way your smile instantly fixes my entire mood, no matter how bad my day was.",
+          "How cute you look when you get sleepy and softly talk to me.",
+          "Your laugh that makes my heart flutter every single time.",
+          "How caring and protective you are toward me.",
+          "The way you say my name—it sounds special only when you say it.",
+          "Even when we fight, we always find our way back to each other.",
+          "Because talking to you every day since February has become my favorite habit.",
+          "How effortlessly beautiful you look, even without trying at all.",
+          "Your warm, kind heart that cares so deeply about people.",
+          "The cute little voices and random silly noises you make when you're happy.",
+          "Because you understand my silent moods without me having to explain.",
+          "The way your eyes light up when you talk about things you love.",
+          "How patient you are with me when I get stubborn or emotional.",
+          "Because you make ordinary days feel like a scene from a dream.",
+          "The warmth and peace I feel just by hearing your voice.",
+          "How you always make sure I've eaten and taken care of myself.",
+          "Because you're not just my girlfriend, you're my best friend and safe space.",
+          "The sweet and random messages you send that make me blush alone.",
+          "How you look at me like I am the only person in the room.",
+          "Because you believe in me even during times when I doubt myself.",
+          "Your unique sense of humor that always gets me giggling.",
+          "How we can talk for hours about completely random things and never get bored.",
+          "The way you pamper me when I need comfort the most.",
+          "Because my world felt incomplete until you walked right into it.",
+          "How pretty you look when you get all shy and blush.",
+          "Because every song on our playlist reminds me of you.",
+          "The way you remember tiny details about me that I didn't even notice.",
+          "Because loving you is the easiest, most natural choice I've ever made.",
+          "Your gentle touch and how safe I feel in your arms.",
+          "How we have our own secret jokes that nobody else understands.",
+          "Because you forgive my flaws and love me for exactly who I am.",
+          "The cute photos and selfies you send that become my instant favorites.",
+          "Because seeing you happy gives me the greatest joy in life.",
+          "The way you motivate me to be a better person every single day.",
+          "How you listen to my long rants without ever complaining.",
+          "Because you're the first person I want to tell good news to.",
+          "How sweet and gentle you are when you comfort me.",
+          "Because late nights with you feel like only five minutes.",
+          "The way you randomly check in on me throughout the day.",
+          "Because your hugs have the power to heal all my stress.",
+          "How adorable you look when you get genuinely surprised.",
+          "Because you never let our arguments ruin the love we share.",
+          "The excitement I feel every time your name pops up on my phone screen.",
+          "How you make every single memory together unforgettable.",
+          "Because no matter where I go, you will always be my home.",
+          "Your cute little pout whenever you pretend to be mad at me.",
+          "Because you love me unconditionally and wholeheartedly.",
+          "How lucky I feel to wake up knowing you are mine.",
+          "Because you're my favorite person in this entire universe.",
+          "And simply because you are you, my sweet Neemu—forever & always. ❤️"
+        ],
+        colors: ['', 'pink', 'rose', 'peach'],
+        unlockedCount: 0,
 
-    const grid = document.getElementById('reasonsGrid');
-    const counterDisplay = document.getElementById('counterDisplay');
-    const colors = ['', 'pink', 'rose', 'peach'];
+        render: function() {
+          var grid = document.getElementById('reasonsGrid');
+          if (!grid) return;
 
-    let unlockedCount = 0;
+          grid.innerHTML = '';
+          var self = this;
 
-    function renderReasons() {
-      grid.innerHTML = '';
-      reasonsList.forEach((text, index) => {
-        const box = document.createElement('div');
-        box.className = 'reason-box';
-        box.id = `box-${index}`;
+          this.reasonsList.forEach(function(text, index) {
+            var box = document.createElement('div');
+            box.className = 'reason-box';
+            box.id = 'box-' + index;
 
-        // Choose dynamic font class based on word count
-        const wordCount = text.split(' ').length;
-        let fontClass = 'font-large';
-        if (wordCount > 18) {
-          fontClass = 'font-small';
-        } else if (wordCount > 9) {
-          fontClass = 'font-medium';
+            var wordCount = text.split(' ').length;
+            var fontClass = 'font-large';
+            if (wordCount > 18) {
+              fontClass = 'font-small';
+            } else if (wordCount > 9) {
+              fontClass = 'font-medium';
+            }
+
+            var colorClass = self.colors[index % self.colors.length];
+
+            box.innerHTML = 
+              '<div class="secret-text-content">' +
+                '<span class="reason-num-tag">Reason #' + (index + 1) + '</span>' +
+                '<p class="reason-body ' + fontClass + '">' + text + '</p>' +
+              '</div>' +
+              '<div class="sticky-note-cover ' + colorClass + '" onclick="window.ReasonsApp.peelNote(' + index + ')">' +
+                '<div class="tape"></div>' +
+                '<span class="sticky-title">#' + (index + 1) + '</span>' +
+                '<span class="tap-hint">Tap to open ✨</span>' +
+              '</div>';
+
+            grid.appendChild(box);
+          });
+
+          this.updateCounter();
+        },
+
+        peelNote: function(index) {
+          var box = document.getElementById('box-' + index);
+          if (box && !box.classList.contains('peeled')) {
+            box.classList.add('peeled');
+            this.unlockedCount++;
+            this.updateCounter();
+          }
+        },
+
+        revealAll: function() {
+          var boxes = document.querySelectorAll('.reason-box');
+          boxes.forEach(function(box) {
+            box.classList.add('peeled');
+          });
+          this.unlockedCount = this.reasonsList.length;
+          this.updateCounter();
+        },
+
+        coverAll: function() {
+          var boxes = document.querySelectorAll('.reason-box');
+          boxes.forEach(function(box) {
+            box.classList.remove('peeled');
+          });
+          this.unlockedCount = 0;
+          this.updateCounter();
+        },
+
+        updateCounter: function() {
+          var counterDisplay = document.getElementById('counterDisplay');
+          if (counterDisplay) {
+            counterDisplay.textContent = this.unlockedCount + ' / ' + this.reasonsList.length + ' Unlocked';
+          }
         }
+      };
 
-        const colorClass = colors[index % colors.length];
-
-        box.innerHTML = `
-          <!-- Hidden text inside -->
-          <div class="secret-text-content">
-            <span class="reason-num-tag">Reason #${index + 1}</span>
-            <p class="reason-body ${fontClass}">${text}</p>
-          </div>
-
-          <!-- Sticky note cover -->
-          <div class="sticky-note-cover ${colorClass}" onclick="peelNote(${index})">
-            <div class="tape"></div>
-            <span class="sticky-title">#${index + 1}</span>
-            <span class="tap-hint">Tap to open ✨</span>
-          </div>
-        `;
-
-        grid.appendChild(box);
-      });
-      updateCounter();
-    }
-
-    function peelNote(index) {
-      const box = document.getElementById(`box-${index}`);
-      if (!box.classList.contains('peeled')) {
-        box.classList.add('peeled');
-        unlockedCount++;
-        updateCounter();
-      }
-    }
-
-    function revealAll() {
-      document.querySelectorAll('.reason-box').forEach(box => {
-        box.classList.add('peeled');
-      });
-      unlockedCount = reasonsList.length;
-      updateCounter();
-    }
-
-    function coverAll() {
-      document.querySelectorAll('.reason-box').forEach(box => {
-        box.classList.remove('peeled');
-      });
-      unlockedCount = 0;
-      updateCounter();
-    }
-
-    function updateCounter() {
-      counterDisplay.textContent = `${unlockedCount} / ${reasonsList.length} Unlocked`;
-    }
-
-    renderReasons();
+      // Always render immediately on script execution
+      window.ReasonsApp.render();
+    })();
   </script>
 </body>
 </html>
