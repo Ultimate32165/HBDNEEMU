@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Happy Birthday Neemu ❤️</title>
   
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -402,7 +401,6 @@
 </head>
 <body>
 
-  <!-- Romantic ATM-Style Lock Screen Overlay -->
   <div id="pin-overlay">
     <div class="pin-card">
       <div class="lock-icon">🔒</div>
@@ -435,12 +433,10 @@
     </div>
   </div>
 
-  <!-- Hidden HTML5 Audio Element -->
   <audio id="bg-audio" loop preload="auto">
     <source src="song.mp3" type="audio/mpeg" />
   </audio>
 
-  <!-- Persistent Floating Music Player Controller -->
   <div class="audio-player-widget">
     <button class="play-btn" id="musicToggleBtn" aria-label="Play Music">▶</button>
     <div class="music-info">
@@ -449,10 +445,8 @@
     </div>
   </div>
 
-  <!-- Background Animated Hearts -->
   <canvas id="heart-canvas"></canvas>
 
-  <!-- Dynamic Content Area -->
   <div id="app-container">
 
     <header class="header-container">
@@ -462,7 +456,6 @@
 
     <main class="grid-container">
 
-      <!-- Card 1 -->
       <a href="page1.html" class="card-link spa-link">
         <div class="card">
           <div class="card-image-box">
@@ -479,7 +472,6 @@
         </div>
       </a>
 
-      <!-- Card 2 -->
       <a href="page2.html" class="card-link spa-link">
         <div class="card">
           <div class="card-image-box">
@@ -496,7 +488,6 @@
         </div>
       </a>
 
-      <!-- Card 3 -->
       <a href="page3.html" class="card-link spa-link">
         <div class="card">
           <div class="card-image-box">
@@ -513,7 +504,6 @@
         </div>
       </a>
 
-      <!-- Card 4 -->
       <a href="page4.html" class="card-link spa-link">
         <div class="card">
           <div class="card-image-box">
@@ -530,7 +520,6 @@
         </div>
       </a>
 
-      <!-- Card 5 -->
       <a href="page5.html" class="card-link spa-link">
         <div class="card">
           <div class="card-image-box">
@@ -547,7 +536,6 @@
         </div>
       </a>
 
-      <!-- Card 6 -->
       <a href="page6.html" class="card-link spa-link">
         <div class="card">
           <div class="card-image-box">
@@ -572,7 +560,6 @@
 
   </div>
 
-  <!-- Audio Controls & SPA Seamless Page Navigation Script -->
   <script>
     const audio = document.getElementById('bg-audio');
     const playBtn = document.getElementById('musicToggleBtn');
@@ -646,26 +633,14 @@
         const doc = parser.parseFromString(html, 'text/html');
 
         setTimeout(() => {
-          // Drop stale dynamic stylesheets
+          // Remove old page stylesheets
           document.querySelectorAll('.dynamic-page-style').forEach(el => el.remove());
 
+          // Insert sub-page HTML into the main viewport
           appContainer.innerHTML = doc.body.innerHTML;
           resetScreenLocks();
 
-          // Execute scripts inside an IIFE wrapper to avoid variable redeclaration conflicts
-          const scripts = doc.querySelectorAll('script');
-          scripts.forEach(oldScript => {
-            const newScript = document.createElement('script');
-            if (oldScript.src) {
-              newScript.src = oldScript.src;
-            } else {
-              newScript.textContent = `(() => {\n${oldScript.textContent}\n})();`;
-            }
-            document.body.appendChild(newScript);
-            newScript.remove(); // Keep the DOM clean after execution
-          });
-
-          // Tag new stylesheets for subsequent cleanup
+          // Append sub-page styles to the document head
           const styles = doc.querySelectorAll('style, link[rel="stylesheet"]');
           styles.forEach(style => {
             const cloned = style.cloneNode(true);
@@ -673,8 +648,36 @@
             document.head.appendChild(cloned);
           });
 
-          attachNavigationEvents();
-          appContainer.style.opacity = '1';
+          // Fetch all scripts from both <head> and <body>
+          const scripts = Array.from(doc.querySelectorAll('script'));
+
+          function runScripts(index) {
+            if (index >= scripts.length) {
+              attachNavigationEvents();
+              appContainer.style.opacity = '1';
+              return;
+            }
+
+            const oldScript = scripts[index];
+            const newScript = document.createElement('script');
+
+            if (oldScript.src) {
+              newScript.src = oldScript.src;
+              newScript.onload = () => runScripts(index + 1);
+              newScript.onerror = () => runScripts(index + 1);
+              document.body.appendChild(newScript);
+            } else {
+              // Indirect eval runs code in the true global scope without lexical trapping
+              try {
+                (0, eval)(oldScript.textContent);
+              } catch (err) {
+                console.error("Script execution error:", err);
+              }
+              runScripts(index + 1);
+            }
+          }
+
+          runScripts(0);
         }, 150);
 
       } catch (err) {
