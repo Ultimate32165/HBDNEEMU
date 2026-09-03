@@ -500,7 +500,7 @@
       <a href="page3.html" class="card-link spa-link">
         <div class="card">
           <div class="card-image-box">
-            <img src="img3.png" alt="Memory 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <img src="img3.png" alt="Reasons I Love You" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
             <div class="placeholder-content">
               <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
               <span>Add Picture 3</span>
@@ -517,7 +517,7 @@
       <a href="page4.html" class="card-link spa-link">
         <div class="card">
           <div class="card-image-box">
-            <img src="img4.png" alt="Memory 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <img src="img4.png" alt="Our Playlist" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
             <div class="placeholder-content">
               <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
               <span>Add Picture 4</span>
@@ -534,7 +534,7 @@
       <a href="page5.html" class="card-link spa-link">
         <div class="card">
           <div class="card-image-box">
-            <img src="img5.png" alt="Memory 5" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <img src="img5.png" alt="Special Surprise" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
             <div class="placeholder-content">
               <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
               <span>Add Picture 5</span>
@@ -551,7 +551,7 @@
       <a href="page6.html" class="card-link spa-link">
         <div class="card">
           <div class="card-image-box">
-            <img src="img6.png" alt="Memory 6" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <img src="img6.png" alt="A Letter For You" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
             <div class="placeholder-content">
               <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
               <span>Add Picture 6</span>
@@ -628,9 +628,7 @@
       if (url === 'index.html' || url === '' || url === window.location.pathname) {
         appContainer.style.opacity = '0';
         setTimeout(() => {
-          // Remove dynamically injected sub-page styles
           document.querySelectorAll('.dynamic-page-style').forEach(el => el.remove());
-
           appContainer.innerHTML = originalHomeHTML;
           resetScreenLocks();
           attachNavigationEvents();
@@ -648,25 +646,26 @@
         const doc = parser.parseFromString(html, 'text/html');
 
         setTimeout(() => {
-          // Clean old dynamic styles before adding new ones
+          // Drop stale dynamic stylesheets
           document.querySelectorAll('.dynamic-page-style').forEach(el => el.remove());
 
           appContainer.innerHTML = doc.body.innerHTML;
           resetScreenLocks();
 
-          // Inject scripts
+          // Execute scripts inside an IIFE wrapper to avoid variable redeclaration conflicts
           const scripts = doc.querySelectorAll('script');
           scripts.forEach(oldScript => {
             const newScript = document.createElement('script');
             if (oldScript.src) {
               newScript.src = oldScript.src;
             } else {
-              newScript.textContent = oldScript.textContent;
+              newScript.textContent = `(() => {\n${oldScript.textContent}\n})();`;
             }
             document.body.appendChild(newScript);
+            newScript.remove(); // Keep the DOM clean after execution
           });
 
-          // Inject styles tagged with dynamic class
+          // Tag new stylesheets for subsequent cleanup
           const styles = doc.querySelectorAll('style, link[rel="stylesheet"]');
           styles.forEach(style => {
             const cloned = style.cloneNode(true);
