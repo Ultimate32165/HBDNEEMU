@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Memorable Messages | For Neemu ❤️</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #1f0b14 0%, #381223 50%, #1a0812 100%);
+      --accent-pink: #ff6b8b;
+      --accent-gold: #ffd166;
+      --card-bg: rgba(255, 255, 255, 0.06);
+      --card-border: rgba(255, 182, 193, 0.22);
+      --text-main: #fff0f5;
+      --text-sub: #f3c5d3;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg-gradient);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 2.5rem 1rem 3.5rem;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+      z-index: 1;
+    }
+
+    .title {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(3.2rem, 7vw, 4.8rem);
+      margin-bottom: 0.3rem;
+      text-shadow: 0 0 15px rgba(255, 107, 139, 0.6);
+      color: #fff;
+    }
+
+    .subtitle {
+      color: var(--text-sub);
+      font-size: 0.95rem;
+      letter-spacing: 1px;
+    }
+
+    /* Dynamic Masonry Columns */
+    .gallery-grid {
+      width: 100%;
+      max-width: 1100px;
+      column-count: 3;
+      column-gap: 1.2rem;
+      padding: 0 0.5rem;
+      margin-bottom: 3.5rem;
+      z-index: 1;
+    }
+
+    /* Individual Dynamic Card */
+    .thumb-card {
+      break-inside: avoid;
+      margin-bottom: 1.2rem;
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      overflow: hidden;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                  border-color 0.3s ease,
+                  box-shadow 0.3s ease;
+      display: block;
+    }
+
+    .thumb-card:hover {
+      transform: translateY(-5px) scale(1.02);
+      border-color: var(--accent-pink);
+      box-shadow: 0 15px 35px rgba(255, 107, 139, 0.3);
+    }
+
+    /* Natural Height Responsive Scaling */
+    .thumb-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .thumb-card:hover img {
+      transform: scale(1.03);
+    }
+
+    /* Responsive Breakpoints */
+    @media (max-width: 900px) {
+      .gallery-grid {
+        column-count: 2;
+        column-gap: 1rem;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .gallery-grid {
+        column-count: 2;
+        column-gap: 0.75rem;
+      }
+      .thumb-card {
+        margin-bottom: 0.75rem;
+        border-radius: 14px;
+      }
+      .nav-arrow { 
+        display: none; 
+      }
+    }
+
+    /* Fullscreen Swipe Lightbox */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(12, 3, 8, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      touch-action: pan-y;
+    }
+
+    .lightbox.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .lightbox-viewport {
+      position: relative;
+      width: 100vw;
+      height: 85vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .lightbox-img {
+      max-width: 92vw;
+      max-height: 85vh;
+      object-fit: contain;
+      border-radius: 14px;
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8);
+      transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.28s ease;
+      will-change: transform, opacity;
+    }
+
+    /* Transition Animations */
+    .lightbox-img.slide-left-out {
+      transform: translateX(-60px) scale(0.92);
+      opacity: 0;
+    }
+
+    .lightbox-img.slide-right-out {
+      transform: translateX(60px) scale(0.92);
+      opacity: 0;
+    }
+
+    .lightbox-img.slide-in {
+      animation: popIn 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.92); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .btn-close {
+      position: absolute;
+      top: 20px;
+      right: 25px;
+      font-size: 2rem;
+      color: #fff;
+      background: none;
+      border: none;
+      cursor: pointer;
+      z-index: 10;
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
+
+    .btn-close:hover {
+      transform: scale(1.2);
+      color: var(--accent-pink);
+    }
+
+    .nav-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      cursor: pointer;
+      z-index: 10;
+      transition: all 0.2s ease;
+    }
+
+    .nav-arrow:hover {
+      background: rgba(255, 107, 139, 0.4);
+      border-color: var(--accent-pink);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .nav-prev { left: 20px; }
+    .nav-next { right: 20px; }
+
+    .counter-tag {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--text-sub);
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 0.3rem 0.9rem;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .bottom-nav {
+      display: flex;
+      gap: 1rem;
+      z-index: 1;
+    }
+
+    .back-btn {
+      color: #fff;
+      text-decoration: none;
+      padding: 0.6rem 1.5rem;
+      border-radius: 30px;
+      background: rgba(255, 107, 139, 0.2);
+      border: 1px solid rgba(255, 107, 139, 0.5);
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background: rgba(255, 107, 139, 0.4);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <h1 class="title">Memorable Messages</h1>
+    <p class="subtitle">Swipe to view our favorite memories ✨</p>
+  </header>
+
+  <main class="gallery-grid" id="galleryGrid"></main>
+
+  <div class="lightbox" id="lightbox">
+    <button class="btn-close" onclick="closeLightbox()">✕</button>
+    <button class="nav-arrow nav-prev" onclick="prevImage()">❮</button>
+    
+    <div class="lightbox-viewport" id="swipeArea">
+      <img src="" id="activeImg" class="lightbox-img" alt="Message Screenshot" />
+    </div>
+
+    <button class="nav-arrow nav-next" onclick="nextImage()">❯</button>
+    <div class="counter-tag" id="slideCounter">1 / 1</div>
+  </div>
+
+  <footer class="bottom-nav">
+    <a href="page1.html" class="back-btn spa-link">← Chapter Menu</a>
+    <a href="index.html" class="back-btn spa-link">Home</a>
+  </footer>
+
+  <script>
+    // Add all your screenshot image filenames here
+    const images = [
+      "chat1.jpg",
+      "chat2.jpg",
+      "chat3.jpg",
+      "chat4.jpg",
+      "chat5.jpg",
+      "chat6.jpg",
+      "chat7.jpg",
+      "chat8.jpg",
+      "chat9.jpg",
+      "chat10.jpg",
+      "chat11.jpg",
+      "chat12.jpg",
+      "chat13.jpg",
+      "chat14.jpg",
+      "chat15.jpg",
+      "chat16.jpg",
+      "chat17.jpg",
+    ];
+
+    let currentIndex = 0;
+    const grid = document.getElementById('galleryGrid');
+    const lightbox = document.getElementById('lightbox');
+    const activeImg = document.getElementById('activeImg');
+    const slideCounter = document.getElementById('slideCounter');
+    const swipeArea = document.getElementById('swipeArea');
+
+    // Dynamically Populate Thumbnails
+    images.forEach((src, idx) => {
+      const card = document.createElement('div');
+      card.className = 'thumb-card';
+      card.onclick = () => openLightbox(idx);
+
+      const img = document.createElement('img');
+      img.src = src;
+      img.loading = "lazy";
+      img.alt = `Message ${idx + 1}`;
+      
+      card.appendChild(img);
+      grid.appendChild(card);
+    });
+
+    function openLightbox(index) {
+      currentIndex = index;
+      updateDisplay();
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+
+    function updateDisplay(direction = 'none') {
+      slideCounter.textContent = `${currentIndex + 1} / ${images.length}`;
+
+      if (direction === 'next') {
+        activeImg.className = 'lightbox-img slide-left-out';
+        setTimeout(() => {
+          activeImg.src = images[currentIndex];
+          activeImg.className = 'lightbox-img slide-in';
+        }, 140);
+      } else if (direction === 'prev') {
+        activeImg.className = 'lightbox-img slide-right-out';
+        setTimeout(() => {
+          activeImg.src = images[currentIndex];
+          activeImg.className = 'lightbox-img slide-in';
+        }, 140);
+      } else {
+        activeImg.src = images[currentIndex];
+        activeImg.className = 'lightbox-img slide-in';
+      }
+    }
+
+    function nextImage() {
+      if (currentIndex < images.length - 1) {
+        currentIndex++;
+      } else {
+        currentIndex = 0;
+      }
+      updateDisplay('next');
+    }
+
+    function prevImage() {
+      if (currentIndex > 0) {
+        currentIndex--;
+      } else {
+        currentIndex = images.length - 1;
+      }
+      updateDisplay('prev');
+    }
+
+    // Touch Swipe Detection
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    swipeArea.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    swipeArea.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, { passive: true });
+
+    function handleSwipe() {
+      const threshold = 45;
+      if (touchStartX - touchEndX > threshold) {
+        nextImage();
+      } else if (touchEndX - touchStartX > threshold) {
+        prevImage();
+      }
+    }
+
+    // Keyboard Arrow Keys
+    window.addEventListener('keydown', (e) => {
+      if (!lightbox.classList.contains('active')) return;
+      if (e.key === 'ArrowRight') nextImage();
+      if (e.key === 'ArrowLeft') prevImage();
+      if (e.key === 'Escape') closeLightbox();
+    });
+  </script>
+</body>
+</html>
